@@ -1,0 +1,112 @@
+using System;
+using System.IO;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Lab6Question1
+
+{
+    class Program
+    {
+        static void Main()
+        {
+            try
+            {
+                //Customer customer = new Customer();
+                Customer customer1 = new Customer();
+                Console.WriteLine("CustomerId:");
+                customer1.CustomerId = Console.ReadLine();
+                Console.WriteLine("Customername:");
+                customer1.CustomerName = Console.ReadLine();
+                Console.WriteLine("address:");
+                customer1.Address = Console.ReadLine();
+                Console.WriteLine("city:");
+                customer1.City = Console.ReadLine();
+                Console.WriteLine("phone:");
+                customer1.Phone = Console.ReadLine();
+                Console.WriteLine("creditlimit:");
+                
+                customer1.CreditLimit= Convert.ToInt32(Console.ReadLine());
+
+
+            }
+            catch(Exception ex)
+            {
+
+                string content = $"{DateTime.Now}"
+                    + $"\nMessage:{ex.Message}";
+                Console.WriteLine(content);
+
+            }
+            Console.ReadKey();
+
+
+
+        }
+    }
+    class InvalidCreditLimit: Exception
+    {
+        public InvalidCreditLimit(string message): base(message)
+        {
+
+        }
+    }
+        class Customer
+        {
+
+
+            
+            private int _creditLimit;
+
+            public string CustomerId { set; get; }
+            public string CustomerName { set; get; }
+            public string Address { set; get; }
+            public string City { set; get; }
+            public string Phone { set; get; }
+
+
+            public int CreditLimit
+            {
+                set
+                {
+
+                    if (value < 50000)
+                    {
+                        _creditLimit = value;
+                    }
+                    else
+                    {
+                        throw new Exception("credit limit exceeded");
+                    }
+                }
+                get
+                {
+                    return _creditLimit;
+                }
+            }
+            // constructor
+               public Customer()
+        {
+
+        }
+            
+            // parametrized constructor 
+            public Customer(string CustId, string CustName, string Add, string Cit, string Pho,int Credlim)
+            {
+                 CustomerId = CustId;
+              CustomerName = CustName;
+               Address = Add;
+              City = Cit;
+              Phone = Pho;
+            CreditLimit = Credlim;
+            
+            }
+
+        }
+
+
+
+
+    } 

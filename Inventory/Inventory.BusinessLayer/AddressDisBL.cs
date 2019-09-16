@@ -16,7 +16,7 @@ namespace Inventory.BusinessLayer
         {
             StringBuilder sb = new StringBuilder();
             bool validAddressDis = true;
-            if (addressDis.AddressID <= 0)
+            if (addressDis.AddressID == string.Empty)
             {
                 validAddressDis = false;
                 sb.Append(Environment.NewLine + "Invalid Address ID");
@@ -34,7 +34,7 @@ namespace Inventory.BusinessLayer
                 sb.Append(Environment.NewLine + "Address line 2 Required");
 
             }
-            if (addressDis.PinCode == 0)
+            if (addressDis.PinCode == string.Empty)
             {
                 validAddressDis = false;
                 sb.Append(Environment.NewLine + "Pin Code Required");
@@ -51,7 +51,7 @@ namespace Inventory.BusinessLayer
                 sb.Append(Environment.NewLine + "State Name Required");
 
             }
-            if (addressDis.DistributorID == 0)
+            if (addressDis.DistributorID == string.Empty)
             {
                 validAddressDis= false;
                 sb.Append(Environment.NewLine + "Distributor Required");
@@ -74,14 +74,11 @@ namespace Inventory.BusinessLayer
                     addressDisAdded = addressDisDAL.AddAddressDisDAL(newAddressDis);
                 }
             }
-            catch (InventoryException)
-            {
-                throw;
-            }
             catch (Exception ex)
             {
-                throw ex;
+                throw new InventoryException(ex.Message);
             }
+           
 
             return addressDisAdded;
         }
@@ -99,24 +96,23 @@ namespace Inventory.BusinessLayer
                     addressDisUpdated = addressDisDAL.UpdateAddressDisDAL(updateAddressDis);
                 }
             }
-            catch (InventoryException)
-            {
-                throw;
-            }
             catch (Exception ex)
             {
-                throw ex;
+                throw new InventoryException(ex.Message);
             }
+
+
 
             return addressDisUpdated;
         }
+    
 
-        public static bool DeleteAddressDisBL(int deleteAddressID)
+        public static bool DeleteAddressDisBL(string deleteAddressID)
         {
             bool addressDisDeleted = false;
             try
             {
-                if (deleteAddressID > 0)
+                if (deleteAddressID != string.Empty)
                 {
                     AddressDisDAL addressDisDAL = new AddressDisDAL();
                     addressDisDeleted = addressDisDAL.DeleteAddressDisDAL(deleteAddressID);
@@ -126,14 +122,12 @@ namespace Inventory.BusinessLayer
                     throw new InventoryException("Invalid Address ID");
                 }
             }
-            catch (InventoryException)
-            {
-                throw;
-            }
             catch (Exception ex)
             {
-                throw ex;
+                throw new InventoryException(ex.Message);
             }
+
+
 
             return addressDisDeleted;
         }

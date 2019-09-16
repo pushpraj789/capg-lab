@@ -49,5 +49,19 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Inventory.BusinessLayer\Inventory.BusinessLayer.csproj">
+      <Project>{14a579b6-6e5b-497f-87b7-0aedfe12fd56}</Project>
+      <Name>Inventory.BusinessLayer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Inventory.DataAccessLayers\Inventory.DataAccessLayers.csproj">
+      <Project>{f4879135-2d32-41eb-8192-6b1651d045f1}</Project>
+      <Name>Inventory.DataAccessLayers</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Inventory.Entities\Inventory.Entities.csproj">
+      <Project>{67a33465-a404-4410-916c-21c2f97d8c71}</Project>
+      <Name>Inventory.Entities</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

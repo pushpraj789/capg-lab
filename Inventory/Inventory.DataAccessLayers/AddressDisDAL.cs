@@ -10,8 +10,10 @@ namespace Inventory.DataAccessLayers
 {
     public class AddressDisDAL
     {
+        //creting a list of type AddressSup
         public static List<AddressDis> addressDisList = new List<AddressDis>();
 
+        //creating a method to add new Address to the list
         public bool AddAddressDisDAL(AddressDis newAddress)
         {
             bool addressDisAdded = false;
@@ -20,7 +22,7 @@ namespace Inventory.DataAccessLayers
                 addressDisList.Add(newAddress);
                 addressDisAdded = true;
             }
-            catch (SystemException ex)
+            catch (Exception ex)
             {
                 throw new InventoryException(ex.Message);
             }
@@ -29,7 +31,7 @@ namespace Inventory.DataAccessLayers
         }
 
 
-
+        //creating a method to update new Address to the list
         public bool UpdateAddressDisDAL(AddressDis updateAddressDis)
         {
             bool addressDisUpdated = false;
@@ -51,7 +53,7 @@ namespace Inventory.DataAccessLayers
                     }
                 }
             }
-            catch (SystemException ex)
+            catch (Exception ex)
             {
                 throw new InventoryException(ex.Message);
             }
@@ -59,7 +61,8 @@ namespace Inventory.DataAccessLayers
 
         }
 
-        public bool DeleteAddressDisDAL(int deleteAddressID)
+        //creating a method to delete address and update the list
+        public bool DeleteAddressDisDAL(string deleteAddressID)
         {
             bool addressDisDeleted = false;
             try
@@ -79,7 +82,7 @@ namespace Inventory.DataAccessLayers
                     addressDisDeleted = true;
                 }
             }
-            catch (SystemException ex)
+            catch (Exception ex)
             {
                 throw new InventoryException(ex.Message);
             }

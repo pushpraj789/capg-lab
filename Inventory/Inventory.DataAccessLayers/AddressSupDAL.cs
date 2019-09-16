@@ -10,9 +10,10 @@ using Inventory.Entities;
 namespace Inventory.DataAccessLayers
 {
     public class AddressSupDAL
-    {
+    {   //creting a list of type AddressSup
         public static List<AddressSup> addressSupList = new List<AddressSup>();
 
+        //creating a method to add new Address to the list
         public bool AddAddressSupDAL(AddressSup newAddress)
         {
             bool addressSupAdded = false;
@@ -21,7 +22,7 @@ namespace Inventory.DataAccessLayers
                 addressSupList.Add(newAddress);
                 addressSupAdded = true;
             }
-            catch (SystemException ex)
+            catch (Exception ex)
             {
                 throw new InventoryException(ex.Message);
             }
@@ -29,8 +30,8 @@ namespace Inventory.DataAccessLayers
 
         }
 
-       
 
+        //creating a method to update new Address to the list
         public bool UpdateAddressSupDAL(AddressSup updateAddressSup)
         {
             bool addressSupUpdated = false;
@@ -52,15 +53,15 @@ namespace Inventory.DataAccessLayers
                     }
                 }
             }
-            catch (SystemException ex)
+            catch (Exception ex)
             {
                 throw new InventoryException(ex.Message);
             }
             return addressSupUpdated;
 
         }
-
-        public bool DeleteAddressSupDAL(int deleteAddressID)
+        //creating a method to delete Address and updating the list
+        public bool DeleteAddressSupDAL(string deleteAddressID)
         {
             bool addressSupDeleted = false;
             try
@@ -80,7 +81,7 @@ namespace Inventory.DataAccessLayers
                     addressSupDeleted = true;
                 }
             }
-            catch (SystemException ex)
+            catch (Exception ex)
             {
                 throw new InventoryException(ex.Message);
             }

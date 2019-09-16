@@ -8,80 +8,43 @@ namespace Inventory.Entities
 {
     public class AddressDis
     {
-        private int addressID;
-
-        public int AddressID
-        {
-            get { return AddressID; }
-            set { AddressID = value; }
-        }
+        // fields
+        private string addressID;
         private string userType;
-
-        public string UserType
-        {
-            get { return userType; }
-            set { userType = value; }
-        }
         private string addressLine1;
-
-        public string AddressLine1
-        {
-            get { return addressLine1; }
-            set { addressLine1 = value; }
-        }
         private string addressLine2;
-
-        public string AddressLine2
-        {
-            get { return addressLine2; }
-            set { addressLine2 = value; }
-        }
-        private int pinCode;
-
-        public int PinCode
-        {
-            get { return pinCode; }
-            set { pinCode = value; }
-        }
+        private string pinCode;
         private string city;
-
-        public string City
-        {
-            get { return city; }
-            set { city = value; }
-        }
         private string state;
+        private string distributorID;
 
-        public string State
-        {
-            get { return state; }
-            set { state = value; }
-        }
+        //properties
 
-
-
-        private int distributorID;
-
-        public int DistributorID
-        {
-            get { return distributorID; }
-            set { distributorID = value; }
-        }
+        public string AddressID { get => addressID; set => addressID = value; }
+        public string UserType { get => userType; set => userType = value; }
+        public string AddressLine1 { get => addressLine1; set => addressLine1 = value; }
+        public string AddressLine2 { get => addressLine2; set => addressLine2 = value; }
+        public string  PinCode { get => pinCode; set => pinCode = value; }
+        public string City { get => city; set => city = value; }
+        public string State { get => state; set => state = value; }
+        public string DistributorID { get => distributorID; set => distributorID = value; }
 
 
+        //Constructor
 
         public AddressDis()
         {
-            AddressID = 0;
-            userType = string.Empty;
+            AddressID = string.Empty;
+            UserType = string.Empty;
             AddressLine1 = string.Empty;
             AddressLine2 = string.Empty;
-            PinCode = 0;
+            PinCode = string.Empty;
             City = string.Empty;
             State = string.Empty;
-
-            DistributorID = 0;
+            DistributorID = string.Empty;
         }
+
+      
     }
 }
-}
+

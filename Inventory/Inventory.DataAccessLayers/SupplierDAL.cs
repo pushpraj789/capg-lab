@@ -6,12 +6,14 @@ using System.Threading.Tasks;
 using Inventory.Exceptions;
 using Inventory.Entities;
 
-
+//creating DAL namespace
 namespace Inventory.DataAccessLayers
 {
     public class SupplierDAL
     {
+        //creting a list of type supplier
         public static List<Supplier> supplierList = new List<Supplier>();
+        //creating method to add new supplier to the list
         public bool AddSupplierDAL(Supplier newSupplier)
         {
             bool supplierAdded = false;
@@ -20,17 +22,19 @@ namespace Inventory.DataAccessLayers
                 supplierList.Add(newSupplier);
                 supplierAdded = true;
             }
-            catch (SystemException ex)
+            catch (Exception ex)
             {
                 throw new InventoryException(ex.Message);
             }
             return supplierAdded;
         }
+        //creating method to get All suppliers
         public List<Supplier> GetAllSuppliersDAL()
         {
             return supplierList;
         }
-        public Supplier SearchSupplierDAL(int searchSupplierID)
+        //creating method to search supplier by their respective ID
+        public Supplier SearchSupplierDAL(string searchSupplierID)
         {
             Supplier searchSupplier = null;
             try
@@ -43,12 +47,13 @@ namespace Inventory.DataAccessLayers
                     }
                 }
             }
-            catch (SystemException ex)
+            catch (Exception ex)
             {
                 throw new InventoryException(ex.Message);
             }
             return searchSupplier;
         }
+        //creating method to search supplier by their respective names
         public List<Supplier> GetSuppliersByNameDAL(string supplierName)
         {
             List<Supplier> searchSupplier = new List<Supplier>();
@@ -62,12 +67,13 @@ namespace Inventory.DataAccessLayers
                     }
                 }
             }
-            catch (SystemException ex)
+            catch (Exception ex)
             {
                 throw new InventoryException(ex.Message);
             }
             return searchSupplier;
         }
+        //creating method to update supplier list
         public bool UpdateSupplierDAL(Supplier updateSupplier)
         {
             bool supplierUpdated = false;
@@ -85,13 +91,15 @@ namespace Inventory.DataAccessLayers
                     }
                 }
             }
-            catch (SystemException ex)
+            catch (Exception ex)
             {
                 throw new InventoryException(ex.Message);
             }
             return supplierUpdated;
         }
-        public bool DeleteSupplierDAL(int deleteSupplierID)
+
+        //creating method to delete supplier in supplier list
+        public bool DeleteSupplierDAL(string deleteSupplierID)
         {
             bool supplierDeleted = false;
             try
@@ -110,7 +118,7 @@ namespace Inventory.DataAccessLayers
                     supplierDeleted = true;
                 }
             }
-            catch (SystemException ex)
+            catch (Exception ex)
             {
                 throw new InventoryException(ex.Message);
             }

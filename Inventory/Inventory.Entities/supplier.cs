@@ -8,52 +8,40 @@ namespace Inventory.Entities
 {
     public class Supplier
     {
+        //fields
+        private string supplierID;
 
-        private int supplierID;
-
-        public int SupplierID
-        {
-            get { return supplierID; }
-            set { supplierID = value; }
-        }
+       
         private string supplierName;
 
-        public string SupplierName
-        {
-            get { return supplierName; }
-            set { supplierName = value; }
-        }
-        private int addressID;
+        
+        private string addressID;
 
-        public int AddressID
-        {
-            get { return addressID; }
-            set { addressID = value; }
-        }
+       
         private string supplierMobile;
 
-        public string SupplierMobile
-        {
-            get { return supplierMobile; }
-            set { supplierMobile = value; }
-        }
+       
 
         private string supplierEmail;
 
-        public string SupplierEmail
-        {
-            get { return supplierEmail; }
-            set { supplierEmail = value; }
-        }
+        //properties
+        public string SupplierID { get => supplierID; set => supplierID = value; }
+        public string SupplierName { get => supplierName; set => supplierName = value; }
+        public string AddressID { get => addressID; set => addressID = value; }
+        public string SupplierMobile { get => supplierMobile; set => supplierMobile = value; }
+        public string SupplierEmail { get => supplierEmail; set => supplierEmail = value; }
 
+
+        //constructor
         public Supplier()
         {
-            SupplierID = 0;
+            SupplierID = string.Empty;
             SupplierName = string.Empty;
-            AddressID = 0;
+            AddressID = string.Empty;
             SupplierMobile = string.Empty;
             SupplierEmail = string.Empty;
         }
 
+        
     }
 }

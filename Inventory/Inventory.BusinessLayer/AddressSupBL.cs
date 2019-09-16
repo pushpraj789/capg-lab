@@ -6,17 +6,18 @@ using System.Threading.Tasks;
 using Inventory.Exceptions;
 using Inventory.Entities;
 using Inventory.DataAccessLayers;
-
+using System.Text.RegularExpressions;
 
 namespace Inventory.BusinessLayer
 {
     class AddressSupBL
     {
+        // validating supplier address
         private static bool ValidateAddressSup(AddressSup addressSup)
         {
             StringBuilder sb = new StringBuilder();
             bool validAddressSup = true;
-            if (addressSup.AddressID <= 0)
+            if (addressSup.AddressID == string.Empty)
             {
                 validAddressSup = false;
                 sb.Append(Environment.NewLine + "Invalid Address ID");
@@ -34,7 +35,11 @@ namespace Inventory.BusinessLayer
                 sb.Append(Environment.NewLine + "Address line 2 Required");
 
             }
-            if (addressSup.PinCode == 0)
+
+
+            Regex regex1= new Regex("^[0-9]{6}$");//six characters
+            if (!regex1.IsMatch(addressSup.PinCode) || addressSup.PinCode == string.Empty)
+            
             {
                 validAddressSup = false;
                 sb.Append(Environment.NewLine + "Pin Code Required");
@@ -51,7 +56,7 @@ namespace Inventory.BusinessLayer
                 sb.Append(Environment.NewLine + "State Name Required");
 
             }
-            if (addressSup.SupplierID == 0)
+            if (addressSup.SupplierID == string.Empty)
             {
                 validAddressSup = false;
                 sb.Append(Environment.NewLine + "Supplier Required");
@@ -62,7 +67,7 @@ namespace Inventory.BusinessLayer
                 throw new InventoryException(sb.ToString());
             return validAddressSup;
         }
-
+        //Validating the address
         public static bool AddAddressSupBL(AddressSup newAddressSup)
         {
             bool addressSupAdded = false;
@@ -74,14 +79,11 @@ namespace Inventory.BusinessLayer
                     addressSupAdded = addressSupDAL.AddAddressSupDAL(newAddressSup);
                 }
             }
-            catch (InventoryException)
-            {
-                throw;
-            }
             catch (Exception ex)
             {
-                throw ex;
+                throw new InventoryException(ex.Message);
             }
+
 
             return addressSupAdded;
         }
@@ -99,24 +101,22 @@ namespace Inventory.BusinessLayer
                     addressSupUpdated = addressSupDAL.UpdateAddressSupDAL(updateAddressSup);
                 }
             }
-            catch (InventoryException)
-            {
-                throw;
-            }
             catch (Exception ex)
             {
-                throw ex;
+                throw new InventoryException(ex.Message);
             }
+
+
 
             return addressSupUpdated;
         }
 
-        public static bool DeleteAddressSupBL(int deleteAddressID)
+        public static bool DeleteAddressSupBL(string deleteAddressID)
         {
             bool addressSupDeleted = false;
             try
             {
-                if (deleteAddressID > 0)
+                if (deleteAddressID != string.Empty)
                 {
                     AddressSupDAL addressSupDAL = new AddressSupDAL();
                     addressSupDeleted = addressSupDAL.DeleteAddressSupDAL(deleteAddressID);
@@ -126,14 +126,12 @@ namespace Inventory.BusinessLayer
                     throw new InventoryException("Invalid Address ID");
                 }
             }
-            catch (InventoryException)
-            {
-                throw;
-            }
             catch (Exception ex)
             {
-                throw ex;
+                throw new InventoryException(ex.Message);
             }
+
+
 
             return addressSupDeleted;
         }

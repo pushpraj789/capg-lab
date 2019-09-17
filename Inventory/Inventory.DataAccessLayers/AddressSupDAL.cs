@@ -88,5 +88,27 @@ namespace Inventory.DataAccessLayers
             return addressSupDeleted;
 
         }
+
+
+
+        public AddressSup SearchAddressSupDAL(string searchAddressID)
+        {
+            AddressSup searchAddressSup = null;
+            try
+            {
+                foreach (AddressSup item in addressSupList)
+                {
+                    if (item.AddressID == searchAddressID)
+                    {
+                        searchAddressSup = item;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return searchAddressSup;
+        }
     }
 }

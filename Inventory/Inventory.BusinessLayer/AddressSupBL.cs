@@ -10,7 +10,8 @@ using System.Text.RegularExpressions;
 
 namespace Inventory.BusinessLayer
 {
-    class AddressSupBL
+    
+    public class AddressSupBL
     {
         // validating supplier address
         private static bool ValidateAddressSup(AddressSup addressSup)
@@ -134,6 +135,27 @@ namespace Inventory.BusinessLayer
 
 
             return addressSupDeleted;
+        }
+
+
+
+
+
+        public static AddressSup SearchAddressSupBL(String AddressID)
+        {
+            AddressSup searchAddressSup = null;
+            try
+            {
+                AddressSupDAL addressSupDAL = new AddressSupDAL();
+                searchAddressSup = addressSupDAL.SearchAddressSupDAL(AddressID);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+          
+            return searchAddressSup;
+
         }
     }
 }

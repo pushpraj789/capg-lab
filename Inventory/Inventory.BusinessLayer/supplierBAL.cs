@@ -10,10 +10,19 @@ using System.Text.RegularExpressions;
 
 namespace Inventory.BusinessLayer
 {
-    public class SupplierBL
+    public interface ISupplierBL
+    {
+        bool ValidateSupplier(Supplier supplier);
+        bool AddSupplierBL(Supplier newSupplier);
+        List<Supplier> GetAllSuppliersBL();
+        Supplier SearchSupplierBL(string searchSupplierID);
+        bool UpdateSupplierBL(Supplier updateSupplier);
+        bool DeleteSupplierBL(string deleteSupplierID);
+    }
+    public class SupplierBL: ISupplierBL
     {
         //creating a method to validate the supplier
-        private static bool ValidateSupplier(Supplier supplier)
+        public bool ValidateSupplier(Supplier supplier)
         {
             StringBuilder sb = new StringBuilder();
             bool validSupplier = true;
@@ -59,7 +68,7 @@ namespace Inventory.BusinessLayer
         }
 
         //creating a method to add validted supplier
-        public static bool AddSupplierBL(Supplier newSupplier)
+        public  bool AddSupplierBL(Supplier newSupplier)
         {
             bool supplierAdded = false;
             try
@@ -79,7 +88,7 @@ namespace Inventory.BusinessLayer
         }
 
         // get list of All valid suppliers
-        public static List<Supplier> GetAllSuppliersBL()
+        public  List<Supplier> GetAllSuppliersBL()
         {
             List<Supplier> supplierList = null;
             try
@@ -96,7 +105,7 @@ namespace Inventory.BusinessLayer
         }
 
         //creating a method to search for all valid suppliers by their respective ID
-        public static Supplier SearchSupplierBL(string searchSupplierID)
+        public  Supplier SearchSupplierBL(string searchSupplierID)
         {
             Supplier searchSupplier = null;
             try
@@ -114,7 +123,7 @@ namespace Inventory.BusinessLayer
         }
 
         //creating a method to update supplier list
-        public static bool UpdateSupplierBL(Supplier updateSupplier)
+        public  bool UpdateSupplierBL(Supplier updateSupplier)
         {
             bool supplierUpdated = false;
             try
@@ -134,7 +143,7 @@ namespace Inventory.BusinessLayer
         }
 
         //creating a method to delete the existing valid suppliers
-        public static bool DeleteSupplierBL(string deleteSupplierID)
+        public  bool DeleteSupplierBL(string deleteSupplierID)
         {
             bool supplierDeleted = false;
             try

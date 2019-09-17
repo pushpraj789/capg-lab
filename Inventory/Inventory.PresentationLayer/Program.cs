@@ -74,6 +74,34 @@ namespace Inventory.PresentationLayer
                 Console.WriteLine(ex.Message);
             }
         }
+        //delete address Sup
+        private static void DeleteAddressSupBL()
+        {
+            try
+            {
+                string deleteAddressID;
+                Console.WriteLine("Enter AddressID to Delete:");
+                deleteAddressID = Console.ReadLine();
+                AddressSup DeleteaddressSup = AddressSupBL.SearchAddressSupBL(deleteAddressID);
+                if (DeleteaddressSup!=null)
+                {
+                    bool AddressSupdeleted = AddressSupBL.DeleteAddressSupBL(deleteAddressID);
+                    if (AddressSupdeleted)
+                        Console.WriteLine("Supplier address Deleted");
+                    else
+                        Console.WriteLine("Supplier address not Deleted ");
+                }
+                else
+                {
+                    Console.WriteLine("No Supplier address Details Available");
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
 
         private static void UpdateSupplierBL()
         {
@@ -105,6 +133,51 @@ namespace Inventory.PresentationLayer
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
+            }
+        }
+        //update address supplier
+        private static void UpdateAddressSupBL()
+        {
+            bool AddressSupUpdated = false;
+            try
+            {
+                AddressSup updateAddressSup = null;
+                Console.WriteLine("Enter AddressID to Update Details:");
+                updateAddressSup.AddressID = Console.ReadLine();
+                AddressSup updatedAddressSup = AddressSupBL.SearchAddressSupBL(updateAddressSup.AddressID);
+                if(updateAddressSup!=null)
+                
+                {
+                        Console.WriteLine("Update Address Line1:");
+                        updateAddressSup.AddressLine1= Console.ReadLine();
+                        Console.WriteLine("Update Address Line2 :");
+                        updateAddressSup.AddressLine2 = Console.ReadLine();
+                        Console.WriteLine("Update City Name :");
+                        updateAddressSup.City = Console.ReadLine();
+                        Console.WriteLine("Update State Name :");
+                        updateAddressSup.State = Console.ReadLine();
+                        Console.WriteLine("Update PinCode:");
+                        updateAddressSup.PinCode = Console.ReadLine();
+
+
+                         AddressSupUpdated = AddressSupBL.UpdateAddressSupBL(updatedAddressSup);
+                        if (AddressSupUpdated)
+                            Console.WriteLine("Supplier Details Updated");
+                        else
+                            Console.WriteLine("Supplier Details not Updated ");
+                }
+                else
+                {
+                        Console.WriteLine("No Supplier Details Available");
+                    
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+
+                Console.WriteLine(ex.Message); 
             }
         }
 
@@ -185,6 +258,42 @@ namespace Inventory.PresentationLayer
                     Console.WriteLine("Supplier Added");
                 else
                     Console.WriteLine("Supplier not Added");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
+        /// <summary>
+        /// for address sup
+        /// </summary>
+        private static void AddAddressSupDAL(AddressSup newAddress)
+        {
+            try
+            {
+                AddressSup newAddressSup = new AddressSup();
+                Console.WriteLine("Enter AddressID :");
+                newAddressSup.AddressID = Console.ReadLine();
+                Console.WriteLine("Enter User Type :");
+                newAddressSup.UserType = Console.ReadLine();
+                Console.WriteLine("Enter AddressLine1:");
+                newAddressSup.AddressLine1 = Console.ReadLine();
+                Console.WriteLine("Enter AddressLine2 :");
+                newAddressSup.AddressLine2 = Console.ReadLine();
+                Console.WriteLine("Enter PIN :");
+                newAddressSup.PinCode = Console.ReadLine();
+                Console.WriteLine("Enter city:");
+                newAddressSup.City = Console.ReadLine();
+                Console.WriteLine("Enter State:");
+                newAddressSup.State = Console.ReadLine();
+
+                bool AddressSupAdded = AddressSupBL.AddAddressSupBL(newAddressSup);
+                if (AddressSupAdded)
+                    Console.WriteLine("Supplier Address Added");
+                else
+                    Console.WriteLine("Supplier Address not  Added");
+
+
             }
             catch (Exception ex)
             {

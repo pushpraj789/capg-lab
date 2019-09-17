@@ -25,8 +25,8 @@ namespace Inventory.Entities
         public string AddressLine2 { get => addressLine2; set => addressLine2 = value; }
         public string PinCode { get => pinCode; set => pinCode = value; }
         public string City { get => city; set => city = value; }
-        public string State { get => State1; set => State1 = value; }
-        public string State1 { get => state; set => state = value; }
+        public string State { get => state; set => state = value; }
+      
         public string SupplierID { get => supplierID; set => supplierID = value; }
 
 

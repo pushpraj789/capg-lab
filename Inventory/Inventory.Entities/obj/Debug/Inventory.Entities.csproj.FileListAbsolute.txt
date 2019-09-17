@@ -1,0 +1,6 @@
+C:\Users\Utkarsh\Documents\GitHub\Final\capg-lab\Inventory\Inventory.Entities\bin\Debug\Inventory.Entities.dll
+C:\Users\Utkarsh\Documents\GitHub\Final\capg-lab\Inventory\Inventory.Entities\bin\Debug\Inventory.Entities.pdb
+C:\Users\Utkarsh\Documents\GitHub\Final\capg-lab\Inventory\Inventory.Entities\obj\Debug\Inventory.Entities.csprojAssemblyReference.cache
+C:\Users\Utkarsh\Documents\GitHub\Final\capg-lab\Inventory\Inventory.Entities\obj\Debug\Inventory.Entities.csproj.CoreCompileInputs.cache
+C:\Users\Utkarsh\Documents\GitHub\Final\capg-lab\Inventory\Inventory.Entities\obj\Debug\Inventory.Entities.dll
+C:\Users\Utkarsh\Documents\GitHub\Final\capg-lab\Inventory\Inventory.Entities\obj\Debug\Inventory.Entities.pdb

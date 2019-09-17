@@ -1,0 +1,16 @@
+C:\Users\Utkarsh\Documents\GitHub\Final\capg-lab\Inventory\Inventory.PresentationLayer\bin\Debug\Inventory.PresentationLayer.exe.config
+C:\Users\Utkarsh\Documents\GitHub\Final\capg-lab\Inventory\Inventory.PresentationLayer\bin\Debug\Inventory.PresentationLayer.exe
+C:\Users\Utkarsh\Documents\GitHub\Final\capg-lab\Inventory\Inventory.PresentationLayer\bin\Debug\Inventory.PresentationLayer.pdb
+C:\Users\Utkarsh\Documents\GitHub\Final\capg-lab\Inventory\Inventory.PresentationLayer\bin\Debug\Inventory.BusinessLayer.dll
+C:\Users\Utkarsh\Documents\GitHub\Final\capg-lab\Inventory\Inventory.PresentationLayer\bin\Debug\Inventory.DataAccessLayers.dll
+C:\Users\Utkarsh\Documents\GitHub\Final\capg-lab\Inventory\Inventory.PresentationLayer\bin\Debug\Inventory.Entities.dll
+C:\Users\Utkarsh\Documents\GitHub\Final\capg-lab\Inventory\Inventory.PresentationLayer\bin\Debug\Inventory.Exceptions.dll
+C:\Users\Utkarsh\Documents\GitHub\Final\capg-lab\Inventory\Inventory.PresentationLayer\bin\Debug\Inventory.BusinessLayer.pdb
+C:\Users\Utkarsh\Documents\GitHub\Final\capg-lab\Inventory\Inventory.PresentationLayer\bin\Debug\Inventory.DataAccessLayers.pdb
+C:\Users\Utkarsh\Documents\GitHub\Final\capg-lab\Inventory\Inventory.PresentationLayer\bin\Debug\Inventory.Entities.pdb
+C:\Users\Utkarsh\Documents\GitHub\Final\capg-lab\Inventory\Inventory.PresentationLayer\bin\Debug\Inventory.Exceptions.pdb
+C:\Users\Utkarsh\Documents\GitHub\Final\capg-lab\Inventory\Inventory.PresentationLayer\obj\Debug\Inventory.PresentationLayer.csprojAssemblyReference.cache
+C:\Users\Utkarsh\Documents\GitHub\Final\capg-lab\Inventory\Inventory.PresentationLayer\obj\Debug\Inventory.PresentationLayer.csproj.CoreCompileInputs.cache
+C:\Users\Utkarsh\Documents\GitHub\Final\capg-lab\Inventory\Inventory.PresentationLayer\obj\Debug\Inventory.PresentationLayer.csproj.CopyComplete
+C:\Users\Utkarsh\Documents\GitHub\Final\capg-lab\Inventory\Inventory.PresentationLayer\obj\Debug\Inventory.PresentationLayer.exe
+C:\Users\Utkarsh\Documents\GitHub\Final\capg-lab\Inventory\Inventory.PresentationLayer\obj\Debug\Inventory.PresentationLayer.pdb

@@ -22,21 +22,22 @@ namespace Inventory.PresentationLayer
                 switch (choice)
                 {
                     case 1:
-                        AddSupplier();
+                        AddSupplierBL();
                         break;
                     case 2:
-                        ListAllGuests();
+                        ListAllSuppliersBL();
                         break;
                     case 3:
                         SearchGuestByID();
                         break;
                     case 4:
-                        UpdateGuest();
+                        UpdateSupplierBL();
                         break;
                     case 5:
-                        DeleteGuest();
+                        DeleteSupplierBL();
                         break;
                     case 6:
+
                         return;
                     default:
                         Console.WriteLine("Invalid Choice");
@@ -45,51 +46,51 @@ namespace Inventory.PresentationLayer
             } while (choice != -1);
         }
 
-        private static void DeleteGuest()
+        private static void DeleteSupplierBL()
         {
             try
             {
-                int deleteGuestID;
-                Console.WriteLine("Enter GuestID to Delete:");
-                deleteGuestID = Convert.ToInt32(Console.ReadLine());
-                Guest deleteGuest = GuestBL.SearchGuestBL(deleteGuestID);
-                if (deleteGuest != null)
+                string deleteSupplierID;
+                Console.WriteLine("Enter SupplierID to Delete:");
+                deleteSupplierID = Console.ReadLine();
+                Supplier deleteSupplier = SupplierBL.SearchSupplierBL(deleteSupplierID);
+                if (deleteSupplier != null)
                 {
-                    bool guestdeleted = GuestBL.DeleteGuestBL(deleteGuestID);
-                    if (guestdeleted)
-                        Console.WriteLine("Guest Deleted");
+                    bool supplierdeleted = SupplierBL.DeleteSupplierBL(deleteSupplierID);
+                    if (supplierdeleted)
+                        Console.WriteLine("Supplier Deleted");
                     else
-                        Console.WriteLine("Guest not Deleted ");
+                        Console.WriteLine("Supplier not Deleted ");
                 }
                 else
                 {
-                    Console.WriteLine("No Guest Details Available");
+                    Console.WriteLine("No Supplier Details Available");
                 }
 
 
             }
-            catch (GuestPhoneBookException ex)
+            catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
             }
         }
 
-        private static void UpdateSupplier()
+        private static void UpdateSupplierBL()
         {
             try
             {
-                int updateGuestID;
+                Supplier updateSupplier= null;
                 Console.WriteLine("Enter SupplierID to Update Details:");
-                updateSupplierID = Console.ReadLine();
-                Supplier updatedGuest = SupplierBL.SearchSupplierBL(updateSupplierID);
+                updateSupplier.SupplierID= Console.ReadLine();
+                Supplier updatedSupplier = SupplierBL.SearchSupplierBL(updateSupplier.SupplierID);
                 if (updatedSupplier != null)
                 {
                     Console.WriteLine("Update Supplier Name :");
                     updatedSupplier.SupplierName = Console.ReadLine();
                     Console.WriteLine("Update MobileNumber :");
                     updatedSupplier.SupplierMobile = Console.ReadLine();
-                    bool guestUpdated = GuestBL.UpdateGuestBL(updatedGuest);
-                    if (guestUpdated)
+                    bool supplierUpdated = SupplierBL.UpdateSupplierBL(updatedSupplier);
+                    if (supplierUpdated)
                         Console.WriteLine("Guest Details Updated");
                     else
                         Console.WriteLine("Guest Details not Updated ");
@@ -111,16 +112,16 @@ namespace Inventory.PresentationLayer
         {
             try
             {
-                int searchSupplierID;
+                string searchSupplierID;
                 Console.WriteLine("Enter SupplierID to Search:");
                 searchSupplierID = Console.ReadLine();
                 Supplier searchSupplier = SupplierBL.SearchSupplierBL(searchSupplierID);
                 if (searchSupplier != null)
                 {
                     Console.WriteLine("******************************************************************************");
-                    Console.WriteLine("GuestID\t\tName\t\tAddressID\t\tPhoneNumber");
+                    Console.WriteLine("SupplierID\t\tSupplierName\t\tAddressID\t\tMobile\t\tEmail");
                     Console.WriteLine("******************************************************************************");
-                    Console.WriteLine("{0}\t\t{1}\t\t{2}", searchSupplier.SupplierID, searchSupplier.SupplierName, searchSupplier.AddressID, searchSupplier.SupplierMobile, searchSupplier.SupplierEmail);
+                    Console.WriteLine("{0}\t\t{1}\t\t{2}\t\t{3}\t\t{4}\t\t{5}", searchSupplier.SupplierID, searchSupplier.SupplierName, searchSupplier.AddressID, searchSupplier.SupplierMobile, searchSupplier.SupplierEmail);
                     Console.WriteLine("******************************************************************************");
                 }
                 else
@@ -136,19 +137,19 @@ namespace Inventory.PresentationLayer
         }
 
 
-        private static void ListAllGuests()
+        private static void ListAllSuppliersBL()
         {
             try
             {
-                List<Guest> guestList = GuestBL.GetAllGuestsBL();
-                if (guestList != null)
+                List<Supplier> supplierList = SupplierBL.GetAllSuppliersBL();
+                if (supplierList != null)
                 {
                     Console.WriteLine("******************************************************************************");
-                    Console.WriteLine("GuestID\t\tName\t\tPhoneNumber");
+                    Console.WriteLine("SupplierID\t\tSupplierName\t\tAddressID\t\tMobile\t\tSupplierEmail");
                     Console.WriteLine("******************************************************************************");
-                    foreach (Guest guest in guestList)
+                    foreach (Supplier supplier in supplierList)
                     {
-                        Console.WriteLine("{0}\t\t{1}\t\t{2}", guest.GuestID, guest.GuestName, guest.GuestContactNumber);
+                        Console.WriteLine("{0}\t\t{1}\t\t{2}\t\t{3}\t\t{4}", supplier.SupplierID,supplier.SupplierName, supplier.AddressID,supplier.SupplierMobile,supplier.SupplierEmail);
                     }
                     Console.WriteLine("******************************************************************************");
 
@@ -164,7 +165,7 @@ namespace Inventory.PresentationLayer
             }
         }
 
-        private static void AddSupplier()
+        private static void AddSupplierBL()
         {
             try
             {
@@ -179,11 +180,11 @@ namespace Inventory.PresentationLayer
                 newSupplier.SupplierMobile = Console.ReadLine();
                 Console.WriteLine("Enter Supplier Email :");
                 newSupplier.SupplierEmail = Console.ReadLine();
-                bool guestAdded = SupplierBL.AddGuestBL(newSupplier);
-                if (guestAdded)
-                    Console.WriteLine("Guest Added");
+                bool supplierAdded = SupplierBL.AddSupplierBL(newSupplier);
+                if (supplierAdded)
+                    Console.WriteLine("Supplier Added");
                 else
-                    Console.WriteLine("Guest not Added");
+                    Console.WriteLine("Supplier not Added");
             }
             catch (Exception ex)
             {
@@ -203,5 +204,7 @@ namespace Inventory.PresentationLayer
             Console.WriteLine("******************************************\n");
 
         }
+        
+
     }
 }

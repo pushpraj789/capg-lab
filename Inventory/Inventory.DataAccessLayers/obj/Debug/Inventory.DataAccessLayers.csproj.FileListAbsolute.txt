@@ -1,0 +1,11 @@
+C:\Users\Utkarsh\Documents\GitHub\Final\capg-lab\Inventory\Inventory.DataAccessLayers\bin\Debug\Inventory.DataAccessLayers.dll
+C:\Users\Utkarsh\Documents\GitHub\Final\capg-lab\Inventory\Inventory.DataAccessLayers\bin\Debug\Inventory.DataAccessLayers.pdb
+C:\Users\Utkarsh\Documents\GitHub\Final\capg-lab\Inventory\Inventory.DataAccessLayers\bin\Debug\Inventory.Entities.dll
+C:\Users\Utkarsh\Documents\GitHub\Final\capg-lab\Inventory\Inventory.DataAccessLayers\bin\Debug\Inventory.Exceptions.dll
+C:\Users\Utkarsh\Documents\GitHub\Final\capg-lab\Inventory\Inventory.DataAccessLayers\bin\Debug\Inventory.Entities.pdb
+C:\Users\Utkarsh\Documents\GitHub\Final\capg-lab\Inventory\Inventory.DataAccessLayers\bin\Debug\Inventory.Exceptions.pdb
+C:\Users\Utkarsh\Documents\GitHub\Final\capg-lab\Inventory\Inventory.DataAccessLayers\obj\Debug\Inventory.DataAccessLayers.csprojAssemblyReference.cache
+C:\Users\Utkarsh\Documents\GitHub\Final\capg-lab\Inventory\Inventory.DataAccessLayers\obj\Debug\Inventory.DataAccessLayers.csproj.CoreCompileInputs.cache
+C:\Users\Utkarsh\Documents\GitHub\Final\capg-lab\Inventory\Inventory.DataAccessLayers\obj\Debug\Inventory.DataAccessLayers.csproj.CopyComplete
+C:\Users\Utkarsh\Documents\GitHub\Final\capg-lab\Inventory\Inventory.DataAccessLayers\obj\Debug\Inventory.DataAccessLayers.dll
+C:\Users\Utkarsh\Documents\GitHub\Final\capg-lab\Inventory\Inventory.DataAccessLayers\obj\Debug\Inventory.DataAccessLayers.pdb

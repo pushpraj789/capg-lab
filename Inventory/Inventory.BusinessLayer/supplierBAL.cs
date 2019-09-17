@@ -10,7 +10,7 @@ using System.Text.RegularExpressions;
 
 namespace Inventory.BusinessLayer
 {
-    class SupplierBL
+    public class SupplierBL
     {
         //creating a method to validate the supplier
         private static bool ValidateSupplier(Supplier supplier)
@@ -24,30 +24,31 @@ namespace Inventory.BusinessLayer
                 sb.Append(Environment.NewLine + "Invalid Supplier ID");
 
             }
-            Regex regex2 = new Regex("^[a-zA-Z ]$");//Only alphabet,Should be less than 30 characters.
+            Regex regex2 = new Regex("^[a-zA-Z ]+$");//Only alphabet,Should be less than 30 characters.
             if (!regex2.IsMatch(supplier.SupplierName) || supplier.SupplierName == String.Empty||supplier.SupplierName.Length>30)
             {
                 validSupplier = false;
                 sb.Append(Environment.NewLine + "Supplier Name Required");
 
             }
-            Regex regex3 = new Regex("^[S]{1}[U]{1}[P]{1}[0-9]{3}]$");// Should be 6 characters,starts with SUP001
+            Regex regex3 = new Regex("^[S]{1}[U]{1}[P]{1}[0-9]{3}$");// Should be 6 characters,starts with SUP001
             if (!regex3.IsMatch(supplier.AddressID)||supplier.AddressID == string.Empty)
             {
                 validSupplier = false;
                 sb.Append(Environment.NewLine + "Invalid Address ID");
 
             }
-            Regex regex4 = new Regex("^[1-9]{1}[0-9]{9}]$");//numeric
+            Regex regex4 = new Regex("^[1-9]{1}[0-9]{9}$");//numeric
             //Should be of exact 10 digits, shouldn’t start with 0.
 
-            if (!regex4.IsMatch(supplier.SupplierMobile) || supplier.SupplierMobile.Length ==10)
+            if (!regex4.IsMatch(supplier.SupplierMobile) || supplier.SupplierMobile.Length !=10)
             {
                 validSupplier = false;
                 sb.Append(Environment.NewLine + "Required 10 Digit Contact Number");
             }
-            Regex regex5 = new Regex("^[]$");//should be valid and contains @ and .com
-            if ((!regex5.IsMatch(supplier.SupplierEmail)||(supplier.SupplierEmail.Contains ("@")) && (supplier.SupplierEmail.Contains(".com"))))
+
+            if (supplier.SupplierEmail.Contains("@") && (supplier.SupplierEmail.Contains(".com"))) ;
+            else
             {
                 validSupplier = false;
                 sb.Append(Environment.NewLine + "valid mailID required");
@@ -58,7 +59,7 @@ namespace Inventory.BusinessLayer
         }
 
         //creating a method to add validted supplier
-        public  bool AddSupplierBL(Supplier newSupplier)
+        public static bool AddSupplierBL(Supplier newSupplier)
         {
             bool supplierAdded = false;
             try

@@ -1,0 +1,6 @@
+C:\Users\Utkarsh\Documents\GitHub\Final\capg-lab\Inventory\Inventory.Exceptions\bin\Debug\Inventory.Exceptions.dll
+C:\Users\Utkarsh\Documents\GitHub\Final\capg-lab\Inventory\Inventory.Exceptions\bin\Debug\Inventory.Exceptions.pdb
+C:\Users\Utkarsh\Documents\GitHub\Final\capg-lab\Inventory\Inventory.Exceptions\obj\Debug\Inventory.Exceptions.csprojAssemblyReference.cache
+C:\Users\Utkarsh\Documents\GitHub\Final\capg-lab\Inventory\Inventory.Exceptions\obj\Debug\Inventory.Exceptions.csproj.CoreCompileInputs.cache
+C:\Users\Utkarsh\Documents\GitHub\Final\capg-lab\Inventory\Inventory.Exceptions\obj\Debug\Inventory.Exceptions.dll
+C:\Users\Utkarsh\Documents\GitHub\Final\capg-lab\Inventory\Inventory.Exceptions\obj\Debug\Inventory.Exceptions.pdb

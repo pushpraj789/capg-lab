@@ -1,0 +1,29 @@
+
+        Create Database Inventory
+go
+use Inventory
+go
+create schema Prod
+go
+create table Prod.Distributors
+(DistributorID Uniqueidentifier primary key  NOT NULL,
+ DistributorName varchar(40)     NOT NULL,
+DistributorMobile         char (10)		NOT NULL,
+DistributorEmail          varchar(50)     NOT NULL,
+DistributorPassword       varchar(15)     NOT NULL,
+CreationDatetime       DateTime NOT NULL,
+ LastModifiedDatetime DateTime        NOT NULL
+ )
+
+
+
+
+create table Prod.DistributorAddress
+(DistributorAddressID Uniqueidentifier primary key NOT NULL,
+ AddressLine1 varchar(40)     NOT NULL,
+AddressLine2       char (10)		NOT NULL,
+City               varchar(50)     NOT NULL,
+AddressState       varchar(15)     NOT NULL,
+PinCode            char (6)         NOT NULL,
+DistributorID         Uniqueidentifier References Prod.Distributors(DistributorID) NOT NULL
+ 

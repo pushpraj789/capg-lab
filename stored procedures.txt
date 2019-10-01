@@ -1,0 +1,124 @@
+
+       create database Inventory
+go
+use Inventory
+go
+create table supplier
+(
+ supplierID     int NOT NULL primary key,
+ supplierName   varchar(40) NOT NULL,
+ supplierMobile  char(10) NOT NULL,
+ supplierEmail   varchar(50) NOT NULL,
+ supplierPassword varchar(15) NOT NULL,
+
+)
+
+select*from supplier
+
+create procedure AddSupplier(@supID int, @supName varchar(40), @supMob char(10),@supEmail varchar(50) ,@supPass varchar(15) )
+as 
+begin
+if @supID IS NULL OR @supID=''
+throw 5001,'Invalid SupplierID',1
+if @supName IS NULL OR @supName=''
+throw 5001,'Invalid Supplier name',2
+if @supMob IS NULL OR @supMob=''
+throw 5001,'Invalid Mobile number',3
+if @supEmail IS NULL OR @supEmail=''
+throw 5001,'Invalid Supplier Email',4
+if @supPass IS NULL OR @supPass=''
+throw 5001,'Invalid Supplier password',5
+
+insert into supplier(supplierID,supplierName,supplierMobile,supplierEmail, supplierPassword)
+values (@supID,@supName,@supMob,@supEmail,@supPass)
+end
+--PROCEDURE CREATED
+create procedure GetAllSupplier(@supID int, @supName varchar(40), @supMob char(10),@supEmail varchar(50) ,@supPass varchar(15))
+as 
+begin 
+	begin try 
+	select*from supplier
+	end try
+	begin catch
+		PRINT @@ERROR;
+		throw 5001,'Invalid Values Fetched',2
+		return 0
+    end catch
+end
+GO
+--PROCEDURE CREATED
+create procedure DeleteSupplier(@supID int, @supName varchar(40), @supMob char(10),@supEmail varchar(50) ,@supPass varchar(15))
+as 
+begin
+	begin try
+		DELETE FROM supplier where supplierID=@supID
+	end try
+	begin catch
+	PRINT @@ERROR;
+		throw 5001,'Invalid Values Fetched',3
+		return 0
+    end catch
+end
+GO
+--PROCEDURE CREATED
+create procedure UpdateSupplier(@supID int, @supName varchar(40), @supMob char(10),@supEmail varchar(50) ,@supPass varchar(15))
+as 
+begin
+	begin try
+		UPDATE supplier
+		SET supplierName=@supName
+		WHERE supplierID=@supID
+	end try
+	begin catch
+	PRINT @@ERROR;
+		throw 5001,'Invalid Values Fetched',4
+		return 0
+    end catch
+end
+GO
+--PROCEDURE CREATED
+create procedure GetSupplierbySupplierID(@supID int, @supName varchar(40), @supMob char(10),@supEmail varchar(50) ,@supPass varchar(15))
+as 
+begin
+	begin try
+		SELECT* FROM supplier where supplierID=@supID
+	end try
+	begin catch
+	PRINT @@ERROR;
+		throw 5001,'Invalid Values Fetched',6
+		return 0
+    end catch
+end
+GO
+
+--PROCEDURE CREATED
+create procedure GetSupplierbySupplierID(@supID int, @supName varchar(40), @supMob char(10),@supEmail varchar(50) ,@supPass varchar(15))
+as 
+begin
+	begin try
+		SELECT* FROM supplier where supplierID=@supID
+	end try
+	begin catch
+	PRINT @@ERROR;
+		throw 5001,'Invalid Values Fetched',6
+		return 0
+    end catch
+end
+GO
+--PROCEDURE CREATED
+create procedure GetSupplierbySupplierID(@supID int, @supName varchar(40), @supMob char(10),@supEmail varchar(50) ,@supPass varchar(15))
+as 
+begin
+	begin try
+		SELECT* FROM supplier where supplierID=@supID
+	end try
+	begin catch
+	PRINT @@ERROR;
+		throw 5001,'Invalid Values Fetched',6
+		return 0
+    end catch
+end
+GO
+GO
+
+

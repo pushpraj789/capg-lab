@@ -1,0 +1,244 @@
+create database Inventory
+go
+use Inventory
+go
+create table supplier
+(
+ supplierID     int NOT NULL primary key,
+ supplierName   varchar(40) NOT NULL unique,
+ supplierMobile  char(10) NOT NULL unique,
+ supplierEmail   varchar(50) NOT NULL unique,
+ supplierPassword varchar(15) NOT NULL,
+ 
+)
+--table created
+select*from supplier
+
+alter procedure AddSupplier(@supID int, @supName varchar(40), @supMob char(10),@supEmail varchar(50) ,@supPass varchar(15) )
+as 
+begin
+if @supID IS NULL OR @supID=''
+throw 50001,'Invalid SupplierID',1
+if exists (select SupplierID from supplier where SupplierID=@supID)
+if @supName IS NULL OR @supName=''
+throw 50001,'Invalid Supplier name',2
+if exists (select SupplierName from supplier where supplierName=@supName)
+if @supMob IS NULL OR @supMob=''
+throw 50001,'Invalid Mobile number',3
+if exists (select supplierMobile from supplier where supplierMobile=@supMob)
+if @supEmail IS NULL OR @supEmail=''
+throw 50001,'Invalid Supplier Email',4
+if exists (select supplierEmail from supplier where supplierEmail=@supEmail)
+if @supPass IS NULL OR @supPass=''
+throw 50001,'Invalid Supplier password',5
+
+insert into supplier(supplierID,supplierName,supplierMobile,supplierEmail, supplierPassword)
+values (@supID,@supName,@supMob,@supEmail,@supPass)
+
+end
+
+exec AddSupplier 50,'Pushpraj','8871032037','kaushik@gmail.com',Don@1234
+exec AddSupplier 56,'kaushik','8871678037','pushprajk@gmail.com',Sonn@1234
+exec AddSupplier 57,'Rohit','8871932037','rohit@gmail.com',DonRohit@14
+
+select*from supplier
+
+--PROCEDURE CREATED
+create procedure GetAllSupplier
+as 
+begin 
+	begin try 
+	select*from supplier
+	end try
+	begin catch
+		PRINT @@ERROR;
+		throw 50001,'Invalid Values Fetched',2
+		return 0
+    end catch
+end
+GO
+--PROCEDURE CREATED
+create procedure DeleteSupplier(@supID int)
+as 
+begin
+	begin try
+		DELETE FROM supplier where supplierID=@supID
+	end try
+	begin catch
+	PRINT @@ERROR;
+		throw 50001,'Invalid Values Fetched',3
+		return 0
+    end catch
+end
+GO
+--PROCEDURE CREATED
+create procedure UpdateSupplier(@supID int, @supName varchar(40), @supMob char(10),@supEmail varchar(50) )
+as 
+begin
+	begin try
+		UPDATE supplier
+		SET supplierName=@supName ,supplierMobile=@supMob, supplierEmail=@supEmail
+		WHERE supplierID=@supID
+	end try
+	begin catch
+	PRINT @@ERROR;
+		throw 50001,'Invalid Values Fetched',4
+		return 0
+    end catch
+end
+GO
+
+--PROCEDURE CREATED
+create procedure GetSupplierbySupplierID(@supID int)
+as 
+begin
+	begin try
+		SELECT* FROM supplier where supplierID=@supID
+	end try
+	begin catch
+	PRINT @@ERROR;
+		throw 50001,'Invalid Values Fetched',6
+		return 0
+    end catch
+end
+GO
+--PROCEDURE CREATED
+create procedure GetSupplierbySupplierName(@supID int, @supName varchar(40))
+as 
+begin
+	begin try
+		SELECT* FROM supplier where supplierName=@supName
+	end try
+	begin catch
+	PRINT @@ERROR;
+		throw 50001,'Invalid Values Fetched',6
+		return 0
+    end catch
+end
+GO
+--PROCEDURE CREATED
+create procedure GetSupplierbyEmail(@supEmail varchar(50))
+as 
+begin
+	begin try
+		SELECT* FROM supplier where supplierEmail=@supEmail
+	end try
+	begin catch
+	PRINT @@ERROR;
+		throw 50001,'Invalid Values Fetched',7
+		return 0
+    end catch
+end
+GO
+--PROCEDURE CREATED
+create procedure GetSupplierbySupplierEmailandPass(@supEmail varchar(50) ,@supPass varchar(15))
+as 
+begin
+	begin try
+		SELECT* FROM supplier where supplierEmail=@supEmail and supplierPassword=@supPass
+	end try
+	begin catch
+	PRINT @@ERROR;
+		throw 50001,'Invalid Values Fetched',6
+		return 0
+    end catch
+end
+GO
+-- PROCEDURE CREATED
+create procedure UpdateSupplierPass(@supID int, @supName varchar(40),@supPass varchar(15))
+as 
+begin
+	begin try
+		UPDATE supplier
+		SET supplierPassword=@supPass
+		WHERE supplierID=@supID
+	end try
+	begin catch
+	PRINT @@ERROR;
+		throw 50001,'Invalid Values Fetched',4
+		return 0
+    end catch
+end
+GO
+
+drop table supplierAddress
+( 
+   SupplierAddressID int primary key NOT NULL, 
+   SupplierID int  NOT NULL,
+   AddressLine1 varchar(255) NOT NULL,
+   AddressLine2 varchar(255) NOT NULL,
+   PinCode char(6) NOT NULL,
+   City  varchar (20) NOT NULL,         
+   State varchar(20) NOT NULL
+)
+create procedure AddSupplierAddress(@supAdID int, @supID int, @AdLine1 char(255),@AdLine2 varchar(255) ,@pcode varchar(15),@city varchar(20),@State varchar(20) )
+as 
+begin
+if @supAdID IS NULL OR @supAdID=''
+throw 50001,'Invalid Supplier addressID',1
+if @supID IS NULL OR @supID=''
+throw 50001,'Invalid Supplier ID',2
+if @AdLine1 IS NULL OR @AdLine1=''
+throw 50001,'Invalid Adress line1',3
+if @AdLine2 IS NULL OR @AdLine2=''
+throw 50001,'Invalid Address line2',4
+if @pcode IS NULL OR @pcode=''
+throw 50001,'Invalid PinCode',5
+if @city IS NULL OR @city=''
+throw 50001,'Invalid City name',6
+if @State IS NULL OR @State=''
+throw 50001,'Invalid State name',7
+
+
+insert into supplierAddress(SupplierAddressID,SupplierID,AddressLine1,AddressLine2,PinCode,City,State )
+values (@supAdID,@supID,@AdLine1,@AdLine2,@pcode,@city,@State)
+end
+--PROCEDURE CREATED
+create procedure GetAllSupplierAddress
+as 
+begin 
+	begin try 
+	select*from SupplierAddress
+	end try
+	begin catch
+		PRINT @@ERROR;
+		throw 50001,'Invalid Values Fetched',2
+		return 0
+    end catch
+end
+GO
+create procedure UpdateSupplierAddress(@supAdID int,@supID int,@AdLine1 varchar(255),@AdLine2 varchar(255),@pcode char(6),@city varchar(20),@state varchar(20))
+as 
+begin
+	begin try
+		UPDATE supplierAddress
+		SET SupplierID=@supID, AddressLine1=@AdLine1,AddressLine2=@AdLine2,PinCode=@pcode,City=@city,State=@state
+		WHERE SupplierAddressID=@supAdID
+	end try
+	begin catch
+	PRINT @@ERROR;
+		throw 50001,'Invalid Values Fetched',4
+		return 0
+    end catch
+end
+GO
+--PROCEDURE CREATED
+create procedure DeleteSupplierAddress(@supAdID int)
+as 
+begin
+	begin try
+		DELETE FROM supplierAddress where SupplierAddressID=@supAdID
+	end try
+	begin catch
+	PRINT @@ERROR;
+		throw 50001,'Invalid Values Fetched',3
+		return 0
+    end catch
+end
+GO
+
+
+
+   
+  
+

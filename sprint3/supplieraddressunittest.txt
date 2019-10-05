@@ -1,0 +1,49 @@
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using Capgemini.Inventory.BusinessLayer;
+using Capgemini.Inventory.Entities;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+namespace Capgemini.Inventory.UnitTests
+{
+    [TestClass]
+    public class AddsupplierAddressBLTest
+    {
+        /// <summary>
+        /// Add supplierAddress to the Collection if it is valid.
+        /// </summary>
+        [TestMethod]
+        public async Task AddValidsupplierAddress()
+        {
+            //Arrange
+            SupplierAddressBL supplierAddressBL = new SupplierAddressBL();
+            Guid id1 = default(Guid);
+            bool isAdded1 = false;
+            SupplierBL supbl = new SupplierBL();
+            Supplier sup = new Supplier() { SupplierID=Guid.NewGuid(), SupplierName = "Scott", SupplierMobile = "9876543210", Password = "Scott123#", Email = "pushpraj@gmail.com" };
+            (isAdded1,id1)=await supbl.AddSupplierBL(sup);
+            SupplierAddress supplierAddress = new SupplierAddress() { SupplierAddressID =Guid.NewGuid() , SupplierID =id1, AddressLine1 = "Scott123#", AddressLine2 = "pushpraj@gmail.com",PinCode="400708",City="Mumbai",State="Maharashtra" };
+            bool isAdded = false;
+            Guid id = default(Guid);
+            string errorMessage = null;
+
+            //Act
+            try
+            {
+                (isAdded, id) = await supplierAddressBL.AddSupplierAddressBL(supplierAddress);
+
+            }
+            catch (Exception ex)
+            {
+                isAdded = false;
+                errorMessage = ex.Message;
+            }
+            finally
+            {
+                //Assert
+                Assert.IsTrue(isAdded, errorMessage);
+            }
+        }
+
+    }

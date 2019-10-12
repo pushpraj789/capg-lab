@@ -1,0 +1,328 @@
+create database Inventory
+go
+use Inventory
+go
+create schema RMA
+
+drop table supplier
+--Created by Pushpraj kaushik on 4/10/19
+--created table for supplier
+create table RMA.supplier
+(
+ supplierID     int NOT NULL primary key,
+ SupplierName   varchar(40) NOT NULL ,
+ SupplierMobile   char(10) NOT NULL ,
+ SupplierEmail  varchar(50) NOT NULL unique,
+ SupplierPassword   varchar(15) NOT NULL ,
+ creationDateTime   datetime,
+ lastModifiedDateTime datetime
+ 
+ 
+)
+
+drop table supplier
+select*from RMA.supplier
+
+
+--Created by Pushpraj kaushik on 4/10/19
+--created procedure for adding new supplier
+
+
+alter procedure AddSupplier(@supID int, @supName varchar(40), @supMob char(10),@supEmail varchar(50) ,@supPass varchar(15))
+as 
+begin
+if @supID IS NULL OR @supID=''
+throw 50001,'Invalid SupplierID',1
+if exists (select SupplierID from supplier where SupplierID=@supID)
+if @supName IS NULL OR @supName=''
+throw 50001,'Invalid Supplier name',2
+if exists (select SupplierName from supplier where supplierName=@supName)
+if @supMob IS NULL OR @supMob=''
+throw 50001,'Invalid Mobile number',3
+if exists (select supplierMobile from supplier where supplierMobile=@supMob)
+if @supEmail IS NULL OR @supEmail=''
+throw 50001,'Invalid Supplier Email',4
+if exists (select supplierEmail from supplier where supplierEmail=@supEmail)
+if @supPass IS NULL OR @supPass=''
+throw 50001,'Invalid Supplier password',5
+
+insert into supplier(supplierID,supplierName,supplierMobile,supplierEmail, supplierPassword,creationDateTime,lastmodifiedDateTime)
+values (@supID,@supName,@supMob,@supEmail,@supPass,sysdatetime(),sysdatetime())
+
+end
+
+exec AddSupplier 61,'Pushpraj','8871032037','kaushik123@gmail.com',Don@1234
+exec AddSupplier 56,'kaushik','8871678037','pushprajk@gmail.com',Sonn@1234
+exec AddSupplier 57,'Rohit','8871932037','rohit@gmail.com',DonRohit@14
+
+select*from supplier
+
+--Created by Pushpraj kaushik on 4/10/19
+--created procedure for getting all the suppliers
+
+
+--PROCEDURE CREATED
+create procedure GetAllSupplier
+as 
+begin 
+	begin try 
+	select*from supplier
+	end try
+	begin catch
+		PRINT @@ERROR;
+		throw 50001,'Invalid Values Fetched',2
+		return 0
+    end catch
+end
+GO
+exec GetAllSupplier
+
+--Created by Pushpraj kaushik on 4/10/19
+--created procedure for deleting existing supplier
+
+
+--PROCEDURE CREATED
+alter procedure DeleteSupplier(@supID int)
+as 
+begin
+	if exists (select supplierID from RMA.supplier where supplierID=@supID)
+	begin
+	DELETE FROM supplier where supplierID=@supID
+	end
+	else
+	throw 50001,'Invalid Values Fetched',3
+	
+end
+GO
+exec DeleteSupplier 50
+--PROCEDURE CREATED
+--Created by Pushpraj kaushik on 4/10/19
+--created procedure for updating the supplier details
+
+alter procedure UpdateSupplier(@supID int, @supName varchar(40), @supMob char(10),@supEmail varchar(50) )
+as 
+begin
+	if @supName = ''
+	throw 50003, 'SupplierName cannot be empty', 1
+	
+	if @supEmail = ''
+	throw 50003, 'SupplierEmail cannot be empty', 1
+		
+	
+	if exists (select supplierID from RMA.supplier where supplierID = @supID)
+		begin
+			update RMA.supplier
+			set	supplierName = @supname,
+				supplierID = @supID,
+				supplierEmail = @supEmail,
+				supplierMobile= @supMob
+			where supplierID = @supID
+		end
+	else 
+		throw 50003, 'supplier id does not exists', 1			
+end
+
+GO
+exec UpdateSupplier 61,'kaushikji1','8871008037','pushprajk1@gmail.com'
+select * from supplier
+--PROCEDURE CREATED
+--Created by Pushpraj kaushik on 4/10/19
+--created procedure for getting supplier by supplier ID
+
+alter procedure GetSupplierbySupplierID(@supID int)
+as
+begin
+if exists (select supplierID from RMA.supplier where supplierID = @supID)
+		begin
+			select* from RMA.supplier
+			where supplierID = @supID
+		end
+	else 
+		throw 50003, 'supplier id does not exists', 1			
+end
+GO
+exec GetSupplierbySupplierID 55
+--PROCEDURE CREATED
+--Created by Pushpraj kaushik on 4/10/19
+--created procedure for getting all the suppliers by their name
+
+alter procedure GetSupplierbySupplierName( @supName varchar(40))
+as
+begin
+if exists (select supplierName from RMA.supplier where supplierName = @supName)
+		begin
+			select* from RMA.supplier
+			where supplierName = @supName
+		end
+	else 
+		throw 50003, 'supplier name does not exists', 1			
+end
+GO
+
+exec GetSupplierbySupplierName 'kaushikji'
+--PROCEDURE CREATED
+--Created by Pushpraj kaushik on 4/10/19
+--created procedure for getting the supplier by email
+
+alter procedure GetSupplierbyEmail(@supEmail varchar(50))
+as
+begin
+if exists (select supplierEmail from RMA.supplier where supplierEmail = @supEmail)
+		begin
+			select* from RMA.supplier
+			where supplierEmail = @supEmail
+		end
+	else 
+		throw 50003, 'supplier Email does not exists', 1			
+end
+GO
+
+exec GetSupplierbyEmail 'pushprajk1@gmail.com'
+--PROCEDURE CREATED
+alter procedure GetSupplierbySupplierEmailandPass(@supEmail varchar(50) ,@supPass varchar(15))
+as
+begin
+if exists (select supplierEmail,supplierPassword from supplier where supplierEmail = @supEmail and supplierPassword = @supPass)
+		begin
+			SELECT* FROM RMA.supplier where supplierEmail=@supEmail and supplierPassword=@supPass
+
+		end
+	else 
+		throw 50003, 'supplier Email and password does not exists', 1			
+end
+GO
+select*from supplier
+exec GetSupplierbySupplierEmailandPass 'pushprajk@gmail.com','@SonAyush123'
+-- PROCEDURE CREATED
+alter procedure UpdateSupplierPass(@supID int, @supName varchar(40),@supPass varchar(15))
+as
+begin
+		if exists (select supplierID from RMA.supplier where supplierID = @supID)
+		begin
+			update supplier
+			set	supplierName = @supname,
+				supplierID = @supID,
+				supplierPassword = @supPass
+			where supplierID = @supID
+		end
+	else 
+		throw 50003, 'supplier id does not exists', 1			
+end
+
+GO
+exec UpdateSupplierPass 56,'kaushikji','@SonAyush1234'
+select*from supplier
+drop table supplierAddress
+create table RMA.supplierAddress
+( 
+   SupplierAddressID int primary key NOT NULL, 
+   SupplierID int  NOT NULL,
+   AddressLine1 varchar(255) NOT NULL,
+   AddressLine2 varchar(255) NOT NULL,
+   PinCode char(6) NOT NULL,
+   City  varchar (20) NOT NULL,         
+   State varchar(20) NOT NULL
+)
+select*from RMA.supplierAddress
+create procedure AddSupplierAddress(@supAdID int, @supID int, @AdLine1 char(255),@AdLine2 varchar(255) ,@pcode varchar(15),@city varchar(20),@State varchar(20) )
+as 
+begin
+if @supAdID IS NULL OR @supAdID=''
+throw 50001,'Invalid Supplier addressID',1
+if @supID IS NULL OR @supID=''
+throw 50001,'Invalid Supplier ID',2
+if @AdLine1 IS NULL OR @AdLine1=''
+throw 50001,'Invalid Adress line1',3
+if @AdLine2 IS NULL OR @AdLine2=''
+throw 50001,'Invalid Address line2',4
+if @pcode IS NULL OR @pcode=''
+throw 50001,'Invalid PinCode',5
+if @city IS NULL OR @city=''
+throw 50001,'Invalid City name',6
+if @State IS NULL OR @State=''
+throw 50001,'Invalid State name',7
+
+
+insert into supplierAddress(SupplierAddressID,SupplierID,AddressLine1,AddressLine2,PinCode,City,State )
+values (@supAdID,@supID,@AdLine1,@AdLine2,@pcode,@city,@State)
+end
+
+exec AddSupplierAddress 157,56,'B-002,sector9','Airoli Circle','400708','Mumbai','CG' 
+select * from supplierAddress
+--PROCEDURE CREATED
+create procedure GetAllSupplierAddress
+as 
+begin 
+select*from RMA.supplierAddress
+end
+GO
+exec GetAllSupplierAddress
+alter procedure UpdateSupplierAddress(@supAdID int,@supID int,@AdLine1 varchar(255),@AdLine2 varchar(255),@pcode char(6),@city varchar(20),@state varchar(20))
+as
+begin
+    if @supAdID =''
+	throw 50003, 'Supplier Address ID cannot be empty', 1
+	if @supID =''
+	throw 50003, 'SupplierID cannot be empty', 1
+	if @AdLine1 IS NULL OR @AdLine1=''
+	throw 50001,'Invalid Adress line1',3
+	if @AdLine2 IS NULL OR @AdLine2=''
+	throw 50001,'Invalid Address line2',4
+	if @pcode IS NULL OR @pcode=''
+	throw 50001,'Invalid PinCode',5
+	if @city IS NULL OR @city=''
+	throw 50001,'Invalid City name',6
+	if @State IS NULL OR @State=''
+	throw 50001,'Invalid State name',7
+
+	
+	if exists (select supplierAddressID from supplierAddress where supplierAddressID = @supAdID)
+		begin
+			update RMA.supplierAddress
+			set	SupplierID=@supID, AddressLine1=@AdLine1,AddressLine2=@AdLine2,PinCode=@pcode,City=@city,State=@state
+			where supplierAddressID = @supAdID
+		end
+	else 
+		throw 50003, 'supplier address id does not exists', 1			
+end
+
+GO
+ 
+exec UpdateSupplierAddress 155,56,'B-001,sector15','Airoli Square','476890','Thane','MH'
+select*from Supplieraddress
+--PROCEDURE CREATED
+alter procedure DeleteSupplierAddress(@supAdID int)
+as 
+begin
+	if exists (select supplierAddressID from RMA.supplierAddress where supplierAddressID=@supAdID)
+	begin
+	DELETE FROM RMA.supplierAddress where supplierAddressID=@supAdID
+	end
+	else
+	throw 50001,'Invalid Values Fetched',3
+end
+GO
+
+
+exec DeleteSupplierAddress 154
+select*from supplierAddress
+
+alter procedure GetSupplierAddressbySupplierAddressID(@supAdID int)
+as 
+begin
+	if exists (select supplierAddressID from RMA.supplierAddress where supplierAddressID=@supAdID)
+	begin
+	SELECT * FROM RMA.supplierAddress where supplierAddressID=@supAdID
+	end
+	else
+	throw 50001,'Invalid Values Fetched',3
+end
+GO
+exec GetSupplierAddressbySupplierAddressID 157
+
+
+
+
+   
+  
+

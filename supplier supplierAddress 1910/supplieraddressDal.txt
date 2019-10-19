@@ -1,0 +1,301 @@
+using System;
+using System.Collections.Generic;
+using Capgemini.Inventory.Contracts.DALContracts;
+using Capgemini.Inventory.Entities;
+using Capgemini.Inventory.Helpers;
+using System.Data;
+using System.Data.SqlClient;
+
+namespace Capgemini.Inventory.DataAccessLayer
+{
+    /// <summary>
+    /// Contains data access layer methods for inserting, updating, deleting SupplierAddresss from SupplierAddresss collection.
+    /// </summary>
+    public class SupplierAddressDAL : SupplierAddressDALBase, IDisposable
+    {
+        //create connection
+        SqlConnection sqlConn = new SqlConnection(Properties.Settings.Default.dbCon);
+
+
+        /// <summary>
+        /// Adds new SupplierAddress to SupplierAddresss collection.
+        /// </summary>
+        /// <param name="newSupplierAddress">Contains the SupplierAddress details to be added.</param>
+        /// <returns>Determinates whether the new SupplierAddress is added.</returns>
+        public override (bool, Guid) AddSupplierAddressDAL(SupplierAddress newSupplierAddress)
+        {
+            bool SupplierAddressAdded = false;
+            Guid id = default(Guid);
+            try
+            {
+               
+                newSupplierAddress.SupplierAddressID = Guid.NewGuid();
+
+                //create command
+                SqlCommand cmd = new SqlCommand("Team_D.AddingSupplierAddress", sqlConn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                
+                //Add parameters
+                SqlParameter p1 = new SqlParameter("@supID", newSupplierAddress.SupplierID);
+                p1.DbType = DbType.Guid;
+                SqlParameter p2 = new SqlParameter("@supAdID", newSupplierAddress.SupplierAddressID);
+                p2.DbType = DbType.Guid;
+                SqlParameter p3 = new SqlParameter("@AdLine1", newSupplierAddress.AddressLine1);
+                SqlParameter p4 = new SqlParameter("@AdLine2", newSupplierAddress.AddressLine2);
+                SqlParameter p5 = new SqlParameter("@pcode", newSupplierAddress.PinCode);
+                SqlParameter p6 = new SqlParameter("@city", newSupplierAddress.City);
+                SqlParameter p7 = new SqlParameter("@state", newSupplierAddress.State);
+                cmd.Parameters.Add(p1);
+                cmd.Parameters.Add(p2);
+                cmd.Parameters.Add(p3);
+                cmd.Parameters.Add(p4);
+                cmd.Parameters.Add(p5);
+                cmd.Parameters.Add(p6);
+                cmd.Parameters.Add(p7);
+
+              
+                sqlConn.Open();
+                cmd.ExecuteNonQuery();
+                sqlConn.Close();
+
+                SupplierAddressAdded = true;
+                id = newSupplierAddress.SupplierAddressID;
+
+            }
+            catch (Exception )
+            {
+                throw;
+            }
+            return (SupplierAddressAdded, id);
+
+        }
+
+        /// <summary>
+        /// Gets all SupplierAddresss from the collection.
+        /// </summary>
+        /// <returns>Returns list of all SupplierAddresss.</returns>
+        public override List<SupplierAddress> GetAllSuppliersAddressesDAL()
+        {
+
+            List<SupplierAddress> tempSupplierAddressList = new List<SupplierAddress>();
+            try
+            {
+                //Find Supplier based on supplierID
+                SqlCommand sqlCommand = new SqlCommand("Team_D.GetAllSupplierAddress", sqlConn);
+                sqlCommand.CommandType = CommandType.StoredProcedure;
+                SqlDataAdapter sqlDataAdapter = new SqlDataAdapter();
+                sqlDataAdapter.SelectCommand = sqlCommand;
+
+
+                DataSet dtSet = new DataSet();
+
+                sqlDataAdapter.Fill(dtSet);
+                DataRow drow;
+                for (int i = 0; i < dtSet.Tables[0].Rows.Count; i++)
+                {
+                    drow = dtSet.Tables[0].Rows[i];
+                    SupplierAddress supplierAddress = new SupplierAddress();
+                    supplierAddress.SupplierAddressID = (Guid)drow["supplierAddressID"];
+                    supplierAddress.SupplierID = (Guid)drow["supplierID"];
+                    supplierAddress.AddressLine1 = (string)drow["AddressLine1"];
+                    supplierAddress.AddressLine2 = (string)drow["AddressLine2"];
+                    supplierAddress.PinCode = (string)drow["PinCode"];
+                    supplierAddress.City = (string)drow["City"];
+                    supplierAddress.State = (string)drow["state"];
+                    tempSupplierAddressList.Add(supplierAddress);
+
+                }
+
+
+
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return tempSupplierAddressList;
+        }
+
+        /// <summary>
+        /// Gets SupplierAddress based on SupplierAddressID.
+        /// </summary>
+        /// <param name="searchSupplierAddressID">Represents SupplierAddressID to search.</param>
+        /// <returns>Returns SupplierAddress object.</returns>
+        public override SupplierAddress GetSupplierAddressBySupplierAddressIDDAL(Guid searchSupplierAddressID)
+        {
+            SupplierAddress supplierAddress = new SupplierAddress();
+            try
+            {
+                //Find Supplier based on supplierID
+                //SqlConnection sqlConn = new SqlConnection(Properties.Settings.Default.dbCon);
+                SqlCommand sqlCommand = new SqlCommand("SELECT * FROM Team_D.supplierAddress where supplierAddressID=@supAdID", sqlConn);
+                List<SupplierAddress> tempSupplierAddressList = new List<SupplierAddress>();
+                sqlCommand.CommandType = CommandType.Text;
+                sqlCommand.Parameters.AddWithValue("@supAdID", searchSupplierAddressID);
+               
+                SqlDataAdapter sqlDataAdapter = new SqlDataAdapter();
+                sqlDataAdapter.SelectCommand = sqlCommand;
+
+
+                DataSet dtSet = new DataSet();
+
+                sqlDataAdapter.Fill(dtSet);
+                DataRow drow = dtSet.Tables[0].Rows[0];
+
+
+                
+                supplierAddress.SupplierID = (Guid)drow["SupplierID"];
+                supplierAddress.SupplierAddressID = (Guid)drow["SupplierAddressID"];
+                supplierAddress.AddressLine1 = (string)drow["AddressLine1"];
+                supplierAddress.AddressLine2 = (string)drow["AddressLine2"];
+                supplierAddress.PinCode = (string)drow["PinCode"];
+                supplierAddress.City = (string)drow["City"];
+                supplierAddress.State = (string)drow["state"];
+
+
+
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return supplierAddress;
+        }
+
+
+
+        /// <summary>
+        /// Updates SupplierAddress based on SupplierAddressID.
+        /// </summary>
+        /// <param name="updateSupplierAddress">Represents SupplierAddress details including SupplierAddressID, SupplierAddressName etc.</param>
+        /// <returns>Determinates whether the existing SupplierAddress is updated.</returns>
+        public override bool UpdateSupplierAddressDAL(SupplierAddress updateSupplierAddress)
+        {
+            bool SupplierAddressUpdated = false;
+            try
+            {
+
+                // Add Connection
+                //SqlConnection cn = new SqlConnection(@"Data Source=ndamssql\sqlilearn;Persist Security Info=True;User ID=sqluser;Password=sqluser");
+
+                // Add Command
+                SqlCommand cmd = new SqlCommand("Team_D.UpdateSupplierAddress", sqlConn);
+                cmd.CommandType = CommandType.StoredProcedure;
+
+
+                //Adding supplierID prameter
+                SqlParameter supAdId = new SqlParameter("@supAdID", updateSupplierAddress.SupplierAddressID);
+                supAdId.DbType = DbType.Guid;
+                cmd.Parameters.Add(supAdId);
+                SqlParameter supId = new SqlParameter("@supID", updateSupplierAddress.SupplierID);
+                supId.DbType = DbType.Guid;
+                cmd.Parameters.Add(supId);
+
+
+                //Add parameter
+                cmd.Parameters.AddWithValue("@AdLine1", updateSupplierAddress.AddressLine1);
+                cmd.Parameters.AddWithValue("@AdLine2", updateSupplierAddress.AddressLine2);
+                cmd.Parameters.AddWithValue("@pcode", updateSupplierAddress.PinCode);
+                cmd.Parameters.AddWithValue("@city", updateSupplierAddress.City);
+                cmd.Parameters.AddWithValue("@state", updateSupplierAddress.State);
+
+                
+                //opening connection and using data reader
+                sqlConn.Open();
+                cmd.ExecuteNonQuery();
+                sqlConn.Close();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return SupplierAddressUpdated;
+        }
+
+        /// <summary>
+        /// Deletes SupplierAddress based on SupplierAddressID.
+        /// </summary>
+        /// <param name="deleteSupplierAddressID">Represents SupplierAddressID to delete.</param>
+        /// <returns>Determinates whether the existing SupplierAddress is updated.</returns>
+        public override bool DeleteSupplierAddressDAL(Guid deleteSupplierAddressID)
+        {
+            bool SupplierAddressDeleted = false;
+            try
+            {
+               // SqlConnection sqlcon = new SqlConnection(@"Data Source=ndamssql\sqlilearn;Persist Security Info=True;User ID=sqluser;Password=sqluser");
+                SqlCommand cmd = new SqlCommand("Team_D.DeleteSupplierAddress", sqlConn);
+                cmd.CommandType = CommandType.StoredProcedure;
+
+
+                SqlParameter supAdId = new SqlParameter("@supAdID", deleteSupplierAddressID);
+                supAdId.DbType = DbType.Guid;
+                cmd.Parameters.Add(supAdId);
+
+                sqlConn.Open();
+                cmd.ExecuteNonQuery();
+                sqlConn.Close();
+                SupplierAddressDeleted = true;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return SupplierAddressDeleted;
+        }
+        
+        
+        /// <summary>
+        /// view SupplierAddress based on SupplierID.
+        /// </summary>
+        /// <param name="supplierID">Represents SupplierID to search.</param>
+        /// <returns>Determinates whether the existing SupplierAddress is updated.</returns>
+        public override List<SupplierAddress> GetSupplierAddressBySupplierIDDAL(Guid searchsupplierID)
+        {
+            List<SupplierAddress> tempSupplierAddressList = new List<SupplierAddress>();
+            try
+            {
+                //Find Supplier based on supplierID
+                SqlCommand sqlCommand = new SqlCommand("Team_D.GetAllSupplierAddressbySupplierID", sqlConn);
+                sqlCommand.CommandType = CommandType.StoredProcedure;
+                sqlCommand.Parameters.AddWithValue("@supID", searchsupplierID);
+                SqlDataAdapter sqlDataAdapter = new SqlDataAdapter();
+                sqlDataAdapter.SelectCommand = sqlCommand;
+
+
+                DataSet dtSet = new DataSet();
+
+                sqlDataAdapter.Fill(dtSet);
+                DataRow drow;
+                for (int i = 0; i < dtSet.Tables[0].Rows.Count; i++)
+                {
+                    drow = dtSet.Tables[0].Rows[i];
+                    SupplierAddress supplierAddress = new SupplierAddress();
+                    supplierAddress.SupplierAddressID = (Guid)drow["supplierAddressID"];
+                    supplierAddress.AddressLine1 = (string)drow["AddressLine1"];
+                    supplierAddress.AddressLine2 = (string)drow["AddressLine2"];
+                    supplierAddress.PinCode = (string)drow["PinCode"];
+                    supplierAddress.City = (string)drow["City"];
+                    supplierAddress.State = (string)drow["state"];
+                    tempSupplierAddressList.Add(supplierAddress);
+
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return tempSupplierAddressList;
+
+        }
+
+
+        /// <summary>
+        /// Clears unmanaged resources such as db connections or file streams.
+        /// </summary>
+        public void Dispose()
+        {
+            //No unmanaged resources currently
+        }
+    }
+
+}

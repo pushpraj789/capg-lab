@@ -1,0 +1,410 @@
+using System;
+using System.Collections.Generic;
+using Capgemini.Inventory.Contracts.DALContracts;
+using Capgemini.Inventory.Entities;
+using Capgemini.Inventory.Helpers;
+using System.Data;
+using System.Data.SqlClient;
+
+namespace Capgemini.Inventory.DataAccessLayer
+{
+    /// <summary>
+    /// Contains data access layer methods for inserting, updating, deleting suppliers from Suppliers collection.
+    /// </summary>
+    public class SupplierDAL : SupplierDALBase, IDisposable
+    {
+        //create connection
+        SqlConnection sqlConn = new SqlConnection(Properties.Settings.Default.dbCon);
+
+        /// <summary>
+        /// Adds new supplier to Suppliers collection.
+        /// </summary>
+        /// <param name="newSupplier">Contains the supplier details to be added.</param>
+        /// <returns>Determinates whether the new supplier is added.</returns>
+        public override (bool, Guid) AddSupplierDAL(Supplier newSupplier)
+        {
+            Guid id = default(Guid);
+            bool supplierAdded = false;
+            try
+            {
+                newSupplier.SupplierID = Guid.NewGuid();
+                
+
+                //create command
+                SqlCommand cmd = new SqlCommand("Team_D.AddSupplier", sqlConn );
+
+
+                //Add parameters
+                SqlParameter p1 = new SqlParameter("@supID", newSupplier.SupplierID);
+                p1.DbType = DbType.Guid;
+                cmd.Parameters.Add(p1);
+
+                SqlParameter p2 = new SqlParameter("@supName", newSupplier.SupplierName);
+                SqlParameter p3 = new SqlParameter("@supMob", newSupplier.SupplierMobile);
+                SqlParameter p4 = new SqlParameter("@supEmail", newSupplier.Email);
+                SqlParameter p5 = new SqlParameter("@supPass", newSupplier.Password);
+
+                
+                cmd.Parameters.Add(p2);
+                cmd.Parameters.Add(p3);
+                cmd.Parameters.Add(p4);
+                cmd.Parameters.Add(p5);
+
+                cmd.CommandType = CommandType.StoredProcedure;
+                sqlConn.Open();
+                cmd.ExecuteNonQuery();
+                sqlConn.Close();
+
+                supplierAdded = true;
+                id = newSupplier.SupplierID;
+
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return (supplierAdded, id);
+        }
+
+        /// <summary>
+        /// Gets all suppliers from the collection.
+        /// </summary>
+        /// <returns>Returns list of all suppliers.</returns>
+        public override List<Supplier> GetAllSuppliersDAL()
+        {
+            List<Supplier> tempSupplierList = new List<Supplier>();
+            try
+            {
+                //Find Supplier based on supplierID
+                SqlCommand sqlCommand = new SqlCommand("Team_D.GetAllSupplier", sqlConn);
+                sqlCommand.CommandType = CommandType.StoredProcedure;
+                SqlDataAdapter sqlDataAdapter = new SqlDataAdapter();
+                sqlDataAdapter.SelectCommand = sqlCommand;
+
+
+                DataSet dtSet = new DataSet();
+
+                sqlDataAdapter.Fill(dtSet);
+                DataRow drow;
+                for (int i = 0; i < dtSet.Tables[0].Rows.Count; i++)
+                {
+                    drow = dtSet.Tables[0].Rows[i];
+                    Supplier supplier = new Supplier();
+                    supplier.SupplierID = (Guid)drow["SupplierID"];
+                    supplier.SupplierName = (string)drow["SupplierName"];
+                    supplier.SupplierMobile = (string)drow["SupplierMobile"];
+                    supplier.Email = (string)drow["SupplierEmail"];
+                    tempSupplierList.Add(supplier);
+
+                }
+
+
+
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return tempSupplierList;
+        }
+
+        /// <summary>
+        /// Gets supplier based on SupplierID.
+        /// </summary>
+        /// <param name="searchSupplierID">Represents SupplierID to search.</param>
+        /// <returns>Returns Supplier object.</returns>
+        public override Supplier GetSupplierBySupplierIDDAL(Guid searchSupplierID)
+        {
+            Supplier supplier = null;
+            try
+            {
+                //Find Supplier based on supplierID
+                SqlCommand sqlCommand = new SqlCommand("select * from Team_D.supplier where supplierID = @supID ", sqlConn);
+                List<Supplier> tempSupplierList = new List<Supplier>();
+                sqlCommand.CommandType = CommandType.Text;
+                sqlCommand.Parameters.AddWithValue("@supID",searchSupplierID );
+                SqlDataAdapter sqlDataAdapter = new SqlDataAdapter();
+                sqlDataAdapter.SelectCommand = sqlCommand;
+
+
+                DataSet dtSet = new DataSet();
+
+                sqlDataAdapter.Fill(dtSet);
+                DataRow drow = dtSet.Tables[0].Rows[0];
+
+
+                supplier = new Supplier();
+                supplier.SupplierID = (Guid)drow["SupplierID"];
+                supplier.SupplierName = (string)drow["SupplierName"];
+                supplier.SupplierMobile = (string)drow["SupplierMobile"];
+                supplier.Email = (string)drow["SupplierEmail"];
+
+
+
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
+            return supplier;
+        }
+
+
+        /// <summary>
+        /// Gets supplier based on SupplierName.
+        /// </summary>
+        /// <param name="supplierName">Represents SupplierName to search.</param>
+        /// <returns>Returns Supplier object.</returns>
+        public override List<Supplier> GetSuppliersByNameDAL(string supplierName)
+        {
+            List<Supplier> tempSupplierList = new List<Supplier>();
+            try
+            {
+                //Find Supplier based on supplierID
+                SqlCommand sqlCommand = new SqlCommand("Team_D.GetSupplierbySupplierName", sqlConn);
+                sqlCommand.CommandType = CommandType.StoredProcedure;
+                sqlCommand.Parameters.AddWithValue("@supName", supplierName);
+                SqlDataAdapter sqlDataAdapter = new SqlDataAdapter();
+                sqlDataAdapter.SelectCommand = sqlCommand;
+
+
+                DataSet dtSet = new DataSet();
+
+                sqlDataAdapter.Fill(dtSet);
+                DataRow drow;
+                for (int i = 0; i < dtSet.Tables[0].Rows.Count; i++)
+                {
+                    drow = dtSet.Tables[0].Rows[i];
+                    Supplier supplier = new Supplier();
+                    supplier.SupplierID = (Guid)drow["SupplierID"];
+                    supplier.SupplierName = (string)drow["SupplierName"];
+                    supplier.SupplierMobile = (string)drow["SupplierMobile"];
+                    supplier.Email = (string)drow["SupplierEmail"];
+                    tempSupplierList.Add(supplier);
+
+                }
+
+
+
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return tempSupplierList;
+
+        }
+
+        /// <summary>
+        /// Gets supplier based on email.
+        /// </summary>
+        /// <param name="email">Represents Supplier's Email Address.</param>
+        /// <returns>Returns Supplier object.</returns>
+        public override Supplier GetSupplierByEmailDAL(string email)
+        {
+            Supplier supplier = null;
+            try
+            {
+                //Find Supplier based on supplierID
+                SqlCommand sqlCommand = new SqlCommand("select * from Team_D.supplier where supplierEmail = @supEmail", sqlConn);
+                List<Supplier> tempSupplierList = new List<Supplier>();
+                sqlCommand.CommandType = CommandType.Text;
+                sqlCommand.Parameters.AddWithValue("@supEmail", email);
+                SqlDataAdapter sqlDataAdapter = new SqlDataAdapter();
+                sqlDataAdapter.SelectCommand = sqlCommand;
+
+
+                DataSet dtSet = new DataSet();
+
+                sqlDataAdapter.Fill(dtSet);
+                DataRow drow = dtSet.Tables[0].Rows[0];
+
+
+                supplier = new Supplier();
+                supplier.SupplierID = (Guid)drow["SupplierID"];
+                supplier.SupplierName = (string)drow["SupplierName"];
+                supplier.SupplierMobile = (string)drow["SupplierMobile"];
+                supplier.Email = (string)drow["SupplierEmail"];
+                supplier.Password = (string)drow["SupplierPassword"];
+                supplier.CreationDateTime = (DateTime)drow["creationDateTime"];
+                supplier.LastModifiedDateTime = (DateTime)drow["lastModifiedDateTime"];
+
+
+
+
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
+            return supplier;
+        }
+
+
+        /// <summary>
+        /// Gets supplier based on Email and Password.
+        /// </summary>
+        /// <param name="email">Represents Supplier's Email Address.</param>
+        /// <param name="password">Represents Supplier's Password.</param>
+        /// <returns>Returns Supplier object.</returns>
+        public override Supplier GetSupplierByEmailAndPasswordDAL(string email, string password)
+        {
+            Supplier supplier = null;
+            try
+            {
+                //Find Supplier based on supplierID
+                SqlCommand sqlCommand = new SqlCommand("select * from Team_D.supplier where SupplierEmail=@supEmail and SupplierPassword=@supPass ", sqlConn);
+                List<Supplier> tempSupplierList = new List<Supplier>();
+                sqlCommand.CommandType = CommandType.Text;
+                sqlCommand.Parameters.AddWithValue("@supEmail",email);
+                sqlCommand.Parameters.AddWithValue("@supPass", password);
+                SqlDataAdapter sqlDataAdapter = new SqlDataAdapter();
+                sqlDataAdapter.SelectCommand = sqlCommand;
+
+
+                DataSet dtSet = new DataSet();
+
+                sqlDataAdapter.Fill(dtSet);
+                DataRow drow = dtSet.Tables[0].Rows[0];
+
+
+                supplier = new Supplier();
+                supplier.SupplierID = (Guid)drow["SupplierID"];
+                supplier.SupplierName = (string)drow["SupplierName"];
+                supplier.SupplierMobile = (string)drow["SupplierMobile"];
+                supplier.Email = (string)drow["SupplierEmail"];
+
+
+
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
+            return supplier;
+        }
+
+        /// <summary>
+        /// Updates supplier based on SupplierID.
+        /// </summary>
+        /// <param name="updateSupplier">Represents Supplier details including SupplierID, SupplierName etc.</param>
+        /// <returns>Determinates whether the existing supplier is updated.</returns>
+        public override bool UpdateSupplierDAL(Supplier updateSupplier)
+        {
+            bool supplierUpdated = false;
+            try
+            {
+
+                
+
+                // Add Command
+                SqlCommand cmd = new SqlCommand("Team_D.UpdateSupplier", sqlConn);
+
+                //Adding supplierID prameter
+                SqlParameter supId = new SqlParameter("@supID", updateSupplier.SupplierID);
+                supId.DbType = DbType.Guid;
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Add(supId);
+
+
+
+                //Add parameters
+                cmd.Parameters.AddWithValue("@supName", updateSupplier.SupplierName);
+                cmd.Parameters.AddWithValue("@supMob", updateSupplier.SupplierMobile);
+                cmd.Parameters.AddWithValue("@supEmail", updateSupplier.Email);
+                
+
+                //opening connection and using data reader
+                sqlConn.Open();
+                cmd.ExecuteNonQuery();
+                sqlConn.Close();
+
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return supplierUpdated;
+        }
+
+        /// <summary>
+        /// Deletes supplier based on SupplierID.
+        /// </summary>
+        /// <param name="deleteSupplierID">Represents SupplierID to delete.</param>
+        /// <returns>Determinates whether the existing supplier is updated.</returns>
+        public override bool DeleteSupplierDAL(Guid deleteSupplierID)
+        {
+            bool supplierDeleted = false;
+            try
+            {
+                SqlCommand cmd = new SqlCommand("Team_D.DeleteSupplier", sqlConn);
+
+                SqlParameter supId = new SqlParameter("@supID", deleteSupplierID);
+                cmd.CommandType = CommandType.StoredProcedure;
+                supId.DbType = DbType.Guid;
+                cmd.Parameters.Add(supId);
+
+                sqlConn.Open();
+                cmd.ExecuteNonQuery();
+                sqlConn.Close();
+                supplierDeleted = true;
+
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return supplierDeleted;
+        }
+
+        /// <summary>
+        /// Updates supplier's password based on SupplierID.
+        /// </summary>
+        /// <param name="updateSupplier">Represents Supplier details including SupplierID, Password.</param>
+        /// <returns>Determinates whether the existing supplier's password is updated.</returns>
+        public override bool UpdateSupplierPasswordDAL(Supplier updateSupplier)
+        {
+            bool passwordUpdated = false;
+            try
+            {
+
+                
+                // Add Command
+                SqlCommand cmd = new SqlCommand("Team_D.UpdateSupplierPass", sqlConn);
+
+                //Adding supplierID prameter
+                SqlParameter supId = new SqlParameter("@supID", updateSupplier.SupplierID);
+                supId.DbType = DbType.Guid;
+                cmd.Parameters.Add(supId);
+
+                //Add parameters
+                cmd.Parameters.AddWithValue("@supName", updateSupplier.SupplierName);
+                cmd.Parameters.AddWithValue("@supPass", updateSupplier.Password);
+
+                //opening connection and using data reader
+                cmd.CommandType = CommandType.StoredProcedure;
+                sqlConn.Open();
+                SqlDataReader sqlDataReader = cmd.ExecuteReader();
+                sqlConn.Close();
+                passwordUpdated = true;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
+            return passwordUpdated;
+        }
+
+        /// <summary>
+        /// Clears unmanaged resources such as db connections or file streams.
+        /// </summary>
+        public void Dispose()
+        {
+            //No unmanaged resources currently
+        }
+    }
+}

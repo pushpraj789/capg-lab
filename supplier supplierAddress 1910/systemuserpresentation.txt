@@ -1,0 +1,1333 @@
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using static System.Console;
+using Capgemini.Inventory.BusinessLayer;
+using Capgemini.Inventory.Entities;
+using Capgemini.Inventory.Exceptions;
+using Capgemini.Inventory.Contracts.BLContracts;
+using Capgemini.Inventory.PresentationLayer;
+
+namespace Inventory.PresentationLayer
+{
+    class SystemUserPresentation
+    {
+        public static async Task<int> SystemUserMenu()
+        {
+            int choice = -2;
+
+            do
+            {
+                //Menu
+                WriteLine("\n***************System User Menu***********");
+                WriteLine("1. Supplier");
+                WriteLine("2. Raw Material");
+                WriteLine("3. Raw Material order");
+                WriteLine("4. View Raw Material Order Details");
+                WriteLine("5. Product");
+                WriteLine("6. View Product orders");
+                WriteLine("7. View Product Order Details");
+                WriteLine("8. Distributor");
+                WriteLine("9. Change Password");
+                WriteLine("0. Logout");
+                WriteLine("-1. Exit");
+                Write("Choice: ");
+
+                //Accept and check choice
+                bool isValidChoice = int.TryParse(ReadLine(), out choice);
+                if (isValidChoice)
+                {
+                    switch (choice)
+                    {
+                        case 1:
+                            int subMenuChoice1 = -1;
+                            do
+                            {
+                                WriteLine("\n***************Supplier***********");
+                                WriteLine("1. View Suppliers");
+                                WriteLine("2. Add Supplier");
+                                WriteLine("3. Update Supplier");
+                                WriteLine("4. Delete Supplier");
+                                WriteLine("5 View All Addresses");
+                                WriteLine("6. Main Menu");
+                                WriteLine("-----------------------");
+                                
+                                bool isValidsubMenuChoice = int.TryParse(ReadLine(), out subMenuChoice1);
+                                if (isValidsubMenuChoice)
+                                {
+                                    switch (subMenuChoice1)
+                                    {
+                                        case 1: await ViewSuppliers(); break;
+                                        case 2: await AddSupplier(); break;
+                                        case 3: await UpdateSupplier(); break;
+                                        case 4: await DeleteSupplier(); break;
+                                        case 5: await ViewSupplierAddress(); break;
+                                        case 6: break;
+                                        default: WriteLine("Please enter digit between 1-5"); break;
+                                    }
+                                }
+                                else
+                                {
+                                    WriteLine("Please enter digit between 1-5");
+                                }
+
+                            } while (subMenuChoice1 != 5);
+                            break;
+                            
+                            
+                        case 2:
+                            int subMenuChoice2 = -1;
+                            do
+                            {
+                                WriteLine("\n***************Raw Material***********");
+                                WriteLine("1. View Raw Materials");
+                                WriteLine("2. Add Raw Material");
+                                WriteLine("3. Update Raw Material");
+                                WriteLine("4. Delete Raw Material");
+                                WriteLine("5. Main Menu");
+                                WriteLine("-----------------------");
+
+                                bool isValidsubMenuChoice = int.TryParse(ReadLine(), out subMenuChoice2);
+                                if (isValidsubMenuChoice)
+                                {
+                                    switch (subMenuChoice2)
+                                    {
+                                        case 1: await ViewRawMaterials(); break;
+                                        case 2: await AddRawMaterial(); break;
+                                        case 3: await UpdateRawMaterial(); break;
+                                        case 4: await DeleteRawMaterial(); break;
+                                        case 5: break;
+                                        default: WriteLine("Please enter digit between 1-5"); break;
+                                    }
+                                }
+                                else
+                                {
+                                    WriteLine("Please enter digit between 1-5");
+                                }
+                            } while (subMenuChoice2 != 5);
+                            break;
+
+                        case 3:
+                            int subMenuChoice3 = -1;
+                            do
+                            {   //menu
+                                WriteLine("\n***************Raw Material Order***********");
+                                WriteLine("1. View RawMaterial orders");
+                                WriteLine("2. Add RawMaterialOrder");
+                                WriteLine("3. Delete RawMaterial Order");
+                                WriteLine("4. Main Menu");
+                                WriteLine("-----------------------");
+
+                                bool isValidsubMenuChoice = int.TryParse(ReadLine(), out subMenuChoice3);
+                                if (isValidsubMenuChoice)
+                                {
+                                    switch (subMenuChoice3)
+                                    {
+                                        case 1: await ViewRawMaterialOrders(); break;
+                                        case 2: await PlaceOrder(); break;
+                                        case 3: await DeleteOrder(); break;
+
+                                        case 4: break;
+                                        default: WriteLine("Please enter digit between 1-5"); break;
+                                    }
+                                }
+                                else
+                                {
+                                    WriteLine("Please enter digit between 1-5");
+                                }
+                            } while (subMenuChoice3 != 4);
+                            
+                            break;
+
+                        case 4:
+                            await ViewRawMaterialOrderDetails();
+                            break;
+
+                        case 5:
+                            int subMenuChoice5 = -1;
+                            do
+                            {
+                                WriteLine("\n***************Product***********");
+                                WriteLine("1. View Products");
+                                WriteLine("2. Add Product");
+                                WriteLine("3. Update Product");
+                                WriteLine("4. Delete Product");
+                                WriteLine("5. Main Menu");
+                                WriteLine("-----------------------");
+
+                                bool isValidsubMenuChoice = int.TryParse(ReadLine(), out subMenuChoice5);
+                                if (isValidsubMenuChoice)
+                                {
+                                    switch (subMenuChoice5)
+                                    {
+                                        case 1: await ViewProducts(); break;
+                                        case 2: await AddProduct(); break;
+                                        case 3: await UpdateProduct(); break;
+                                        case 4: await DeleteProduct(); break;
+                                        case 5: break;
+                                        default: WriteLine("Please enter digit between 1-5"); break;
+                                    }
+                                }
+                                else
+                                {
+                                    WriteLine("Please enter digit between 1-5");
+                                }
+                            } while (subMenuChoice5 != 5);
+                            break;
+
+                        case 6:
+                            await ViewProductOrders();
+                            break;
+                        case 7:
+                            await ViewProductOrderDetails();
+                            break;
+                        case 8:
+                            int subMenuChoice8 = -1;
+                            do
+                            {
+                                WriteLine("\n***************Distributor***********");
+                                WriteLine("1. View Distributors");
+                                WriteLine("2. Add Distributor");
+                                WriteLine("3. Update Distributor");
+                                WriteLine("4. Delete Distributor");
+                                WriteLine("5. Main Menu");
+                                WriteLine("-----------------------");
+
+                                bool isValidsubMenuChoice = int.TryParse(ReadLine(), out subMenuChoice8);
+                                if (isValidsubMenuChoice)
+                                {
+                                    switch (subMenuChoice8)
+                                    {
+                                        case 1: await ViewDistributors(); break;
+                                        case 2: await AddDistributor(); break;
+                                        case 3: await UpdateDistributor(); break;
+                                        case 4: await DeleteDistributor(); break;
+                                        case 5: break;
+                                        default: WriteLine("Please enter digit between 1-5"); break;
+                                    }
+                                }
+                                else
+                                {
+                                    WriteLine("Please enter digit between 1-5");
+                                }
+                            } while (subMenuChoice8 != 5);
+                            break;
+
+                        case 9:
+                            await ChangeSystemUserPassword();
+                            return 0;
+                        case 0: break;
+                        case -1: break;
+                        default: WriteLine("Invalid Choice"); break;
+                    }
+                }
+                else
+                {
+                    WriteLine("Invalid Choice");
+                    choice = -2;
+                }
+            } while (choice != 0 && choice != -1);
+            return choice;
+        }
+
+        #region Supplier
+
+        public static async Task ViewSupplierAddress()
+        {
+            try
+            {
+                using (ISupplierAddressBL supplierAddressBL = new SupplierAddressBL())
+                {
+                    //Get and display list of system users.
+                    List<SupplierAddress> suppliersAddress = await supplierAddressBL.GetAllSuppliersAddressesBL();
+                    WriteLine("SUPPLIER Address:");
+                    if (suppliersAddress != null && suppliersAddress?.Count > 0)
+                    {
+                        WriteLine("#\tAddressLine1\tAddressLine2\tCity\tState\tPincode");
+                        int serial = 0;
+                        foreach (var supplierAddress in suppliersAddress)
+                        {
+                            serial++;
+                            WriteLine($"{serial}\t{supplierAddress.AddressLine1}\t{supplierAddress.AddressLine2}\t{supplierAddress.City}\t{supplierAddress.State}\t{supplierAddress.PinCode}");
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ExceptionLogger.LogException(ex);
+                WriteLine(ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Displays list of Suppliers.
+        /// </summary>
+        /// <returns></returns>
+        public static async Task ViewSuppliers()
+        {
+            try
+            {
+                using (ISupplierBL supplierBL = new SupplierBL())
+                {
+                    //Get and display list of system users.
+                    List<Supplier> suppliers = await supplierBL.GetAllSuppliersBL();
+                    WriteLine("SUPPLIERS:");
+                    if (suppliers != null && suppliers?.Count > 0)
+                    {
+                        WriteLine("#\tName\tMobile\tEmail\tCreated\tModified");
+                        int serial = 0;
+                        foreach (var supplier in suppliers)
+                        {
+                            serial++;
+                            WriteLine($"{serial}\t{supplier.SupplierName}\t{supplier.SupplierMobile}\t{supplier.Email}\t{supplier.CreationDateTime}\t{supplier.LastModifiedDateTime}");
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ExceptionLogger.LogException(ex);
+                WriteLine(ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Adds Supplier.
+        /// </summary>
+        /// <returns></returns>
+        public static async Task AddSupplier()
+        {
+            try
+            {
+                //Read inputs
+                Supplier supplier = new Supplier();
+                Write("Name: ");
+                supplier.SupplierName = ReadLine();
+                Write("Mobile: ");
+                supplier.SupplierMobile = ReadLine();
+                Write("Email: ");
+                supplier.Email = ReadLine();
+                Write("Password: ");
+                supplier.Password = ReadLine();
+
+                //Invoke AddSupplierBL method to add
+                using (ISupplierBL supplierBL = new SupplierBL())
+                {
+                    (bool isAdded,Guid id) = await supplierBL.AddSupplierBL(supplier);
+                    if (isAdded)
+                    {
+                        WriteLine("Supplier Added");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ExceptionLogger.LogException(ex);
+                WriteLine(ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Updates Supplier.
+        /// </summary>
+        /// <returns></returns>
+        public static async Task UpdateSupplier()
+        {
+            try
+            {
+                using (ISupplierBL supplierBL = new SupplierBL())
+                {
+                    //Read Sl.No
+                    Write("Supplier #: ");
+                    bool isNumberValid = int.TryParse(ReadLine(), out int serial);
+                    if (isNumberValid)
+                    {
+                        serial--;
+                        List<Supplier> suppliers = await supplierBL.GetAllSuppliersBL();
+                        if (serial <= suppliers.Count - 1)
+                        {
+                            //Read inputs
+                            Supplier supplier = suppliers[serial];
+                            Write("Name: ");
+                            supplier.SupplierName = ReadLine();
+                            Write("Mobile: ");
+                            supplier.SupplierMobile = ReadLine();
+                            Write("Email: ");
+                            supplier.Email = ReadLine();
+                            supplier.LastModifiedDateTime = DateTime.Now;
+
+                            //Invoke UpdateSupplierBL method to update
+                            bool isUpdated = await supplierBL.UpdateSupplierBL(supplier);
+                            if (isUpdated)
+                            {
+                                WriteLine("Supplier Updated");
+                            }
+                        }
+                        else
+                        {
+                            WriteLine($"Invalid Supplier #.\nPlease enter a number between 1 to {suppliers.Count}");
+                        }
+                    }
+                    else
+                    {
+                        WriteLine($"Invalid number.");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ExceptionLogger.LogException(ex);
+                WriteLine(ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Delete Supplier.
+        /// </summary>
+        /// <returns></returns>
+        public static async Task DeleteSupplier()
+        {
+            try
+            {
+                using (ISupplierBL supplierBL = new SupplierBL())
+                {
+                    //Read Sl.No
+                    Write("Supplier #: ");
+                    bool isNumberValid = int.TryParse(ReadLine(), out int serial);
+                    if (isNumberValid)
+                    {
+                        serial--;
+                        List<Supplier> suppliers = await supplierBL.GetAllSuppliersBL();
+                        if (serial <= suppliers.Count - 1)
+                        {
+                            //Confirmation
+                            Supplier supplier = suppliers[serial];
+                            Write("Are you sure? (Y/N): ");
+                            string confirmation = ReadLine();
+
+                            if (confirmation.Equals("Y", StringComparison.OrdinalIgnoreCase))
+                            {
+                                //Invoke DeleteSupplierBL method to delete
+                                bool isDeleted = await supplierBL.DeleteSupplierBL(supplier.SupplierID);
+                                if (isDeleted)
+                                {
+                                    WriteLine("Supplier Deleted");
+                                }
+                            }
+                        }
+                        else
+                        {
+                            WriteLine($"Invalid Supplier #.\nPlease enter a number between 1 to {suppliers.Count}");
+                        }
+                    }
+                    else
+                    {
+                        WriteLine($"Invalid number.");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ExceptionLogger.LogException(ex);
+                WriteLine(ex.Message);
+            }
+        }
+
+        #endregion
+
+
+        /// <summary>
+        /// Displays list of Distributors.
+        /// </summary>
+        /// <returns></returns>
+        public static async Task ViewDistributors()
+        {
+            try
+            {
+                using (IDistributorBL distributorBL = new DistributorBL())
+                {
+                    //Get and display list of system users.
+                    List<Distributor> distributors = await distributorBL.GetAllDistributorsBL();
+                    WriteLine("DISTRIBUTORS:");
+                    if (distributors != null && distributors?.Count > 0)
+                    {
+                        WriteLine("#\tName\tMobile\tEmail\tCreated\tModified");
+                        int serial = 0;
+                        foreach (var distributor in distributors)
+                        {
+                            serial++;
+                            WriteLine($"{serial}\t{distributor.DistributorName}\t{distributor.DistributorMobile}\t{distributor.Email}\t{distributor.CreationDateTime}\t{distributor.LastModifiedDateTime}");
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ExceptionLogger.LogException(ex);
+                WriteLine(ex.Message);
+            }
+        }
+        public static async Task ViewProductOrders()
+        {
+            try
+            {
+                using (ProductOrderBL productorderBL = new ProductOrderBL())
+                {
+                    //Get and display list of system users.
+                    List<ProductOrder> productorderList = await productorderBL.GetAllProductOrdersBL();
+                    WriteLine("PRODUCT ORDERS:");
+                    if (productorderList != null && productorderList?.Count > 0)
+                    {
+                        WriteLine("#\tProductOrderDate \tDistributorName \tProductOrderAmount\tTotalQuantity");
+                        int serial = 0;
+                        foreach (var productorder in productorderList)
+                        {
+                            serial++;
+                            DistributorBL distributorBL = new DistributorBL();
+                            Distributor distributor = await distributorBL.GetDistributorByDistributorIDBL(productorder.DistributorID);
+                            WriteLine($"{serial}\t{productorder.ProductOrderDate}\t{distributor.DistributorName}\t{productorder.ProductOrderAmount}\t{productorder.TotalQuantity}");
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ExceptionLogger.LogException(ex);
+                WriteLine(ex.Message);
+            }
+        }
+        public static async Task ViewProductOrderDetails()
+        {
+            try
+            {
+                using (ProductOrderDetailBL productorderDetailBL = new ProductOrderDetailBL())
+                {
+                    //Get and display list of system users.
+                    List<ProductOrderDetail> productorderList = await productorderDetailBL.GetAllProductOrderDetailsBL();
+                    WriteLine("PRODUCT ORDERs DETAIL:");
+                    if (productorderList != null && productorderList?.Count > 0)
+                    {
+                        WriteLine("#\tProductName \tProductQuantity\tTotalPrice");
+                        int serial = 0;
+                        foreach (var productorder in productorderList)
+                        {
+                            serial++;
+                            ProductBL productBL = new ProductBL();
+                            Product product = await productBL.GetProductByProductIDBL(productorder.ProductID);
+                            WriteLine($"{serial}\t{product.ProductName}\t{productorder.ProductQuantity}\t{productorder.ProductTotalPrice}");
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ExceptionLogger.LogException(ex);
+                WriteLine(ex.Message);
+            }
+        }
+        public static async Task ViewRawMaterialOrderDetails()
+        {
+            try
+            {
+                using (RawMaterialOrderDetailBL rawmaterialorderDetailBL = new RawMaterialOrderDetailBL())
+                {
+                    //Get and display list of system users.
+                    List<RawMaterialOrderDetail> productorderList = await rawmaterialorderDetailBL.GetAllRawMaterialOrderDetailsBL();
+                    WriteLine("RAW MATERIAL ORDERS DETAIL:");
+                    RawMaterialBL rawmaterialBL = new RawMaterialBL();
+                    if (productorderList != null && productorderList?.Count > 0)
+                    {
+                        WriteLine("#\tRaw Material Name \tProductQuantity\tTotalPrice");
+                        int serial = 0;
+                        foreach (var productorder in productorderList)
+                        {
+                            serial++;
+                            RawMaterial rawmaterial = await rawmaterialBL.GetRawMaterialByRawMaterialIDBL(productorder.RawMaterialID);
+                            WriteLine($"{serial}\t{rawmaterial.RawMaterialName}\t{productorder.RawMaterialQuantity}\t{productorder.RawMaterialTotalPrice}");
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ExceptionLogger.LogException(ex);
+                WriteLine(ex.Message);
+            }
+        }
+        public static async Task ViewRawMaterialOrders()
+        {
+            try
+            {
+                using (RawMaterialOrderBL rawmaterialorderBL = new RawMaterialOrderBL())
+                {
+                    //Get and display list of system users.
+                    List<RawMaterialOrder> rawmaterialList = await rawmaterialorderBL.GetAllRawMaterialOrdersBL();
+                    WriteLine("RAW MATERIAL ORDERS:");
+                    if (rawmaterialList != null && rawmaterialList?.Count > 0)
+                    {
+                        WriteLine("#\tRawMaterialOrderDate \tSupplierEmail \tRawMaterialOrderAmount\tTotalQuantity");
+                        int serial = 0;
+                        SupplierBL supplierBL = new SupplierBL();
+                       
+                        foreach (var rawmaterialorder in rawmaterialList)
+                        {
+                            serial++;
+                            Supplier supplier = await supplierBL.GetSupplierBySupplierIDBL(rawmaterialorder.SupplierID);
+                            WriteLine($"{serial}\t{rawmaterialorder.RawMaterialOrderDate}\t{supplier.Email}\t{rawmaterialorder.RawMaterialTotalPrice}\t{rawmaterialorder.RawMaterialTotalQuantity}");
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ExceptionLogger.LogException(ex);
+                WriteLine(ex.Message);
+            }
+        }
+        /// <summary>
+        /// Adds Distributor.
+        /// </summary>
+        /// <returns></returns>
+        public static async Task AddDistributor()
+        {
+            try
+            {
+                //Read inputs
+                Distributor distributor = new Distributor();
+                Write("Name: ");
+                distributor.DistributorName = ReadLine();
+                Write("Mobile: ");
+                distributor.DistributorMobile = ReadLine();
+                Write("Email: ");
+                distributor.Email = ReadLine();
+                Write("Password: ");
+                distributor.Password = ReadLine();
+
+                //Invoke AddDistributorBL method to add
+                using (IDistributorBL distributorBL = new DistributorBL())
+                {
+                    (bool isAdded, Guid id) = await distributorBL.AddDistributorBL(distributor);
+                    if (isAdded)
+                    {
+                        WriteLine("Distributor Added");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ExceptionLogger.LogException(ex);
+                WriteLine(ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Updates Distributor.
+        /// </summary>
+        /// <returns></returns>
+        public static async Task UpdateDistributor()
+        {
+            try
+            {
+                using (IDistributorBL distributorBL = new DistributorBL())
+                {
+                    //Read Sl.No
+                    Write("Distributor #: ");
+                    bool isNumberValid = int.TryParse(ReadLine(), out int serial);
+                    if (isNumberValid)
+                    {
+                        serial--;
+                        List<Distributor> distributors = await distributorBL.GetAllDistributorsBL();
+                        if (serial <= distributors.Count - 1)
+                        {
+                            //Read inputs
+                            Distributor distributor = distributors[serial];
+                            Write("Name: ");
+                            distributor.DistributorName = ReadLine();
+                            Write("Mobile: ");
+                            distributor.DistributorMobile = ReadLine();
+                            Write("Email: ");
+                            distributor.Email = ReadLine();
+                            distributor.LastModifiedDateTime = DateTime.Now;
+
+                            //Invoke UpdateDistributorBL method to update
+                            bool isUpdated = await distributorBL.UpdateDistributorBL(distributor);
+                            if (isUpdated)
+                            {
+                                WriteLine("Distributor Updated");
+                            }
+                        }
+                        else
+                        {
+                            WriteLine($"Invalid Distributor #.\nPlease enter a number between 1 to {distributors.Count}");
+                        }
+                    }
+                    else
+                    {
+                        WriteLine($"Invalid number.");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ExceptionLogger.LogException(ex);
+                WriteLine(ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Delete Distributor.
+        /// </summary>
+        /// <returns></returns>
+        public static async Task DeleteDistributor()
+        {
+            try
+            {
+                using (IDistributorBL distributorBL = new DistributorBL())
+                {
+                    //Read Sl.No
+                    Write("Distributor #: ");
+                    bool isNumberValid = int.TryParse(ReadLine(), out int serial);
+                    if (isNumberValid)
+                    {
+                        serial--;
+                        List<Distributor> distributors = await distributorBL.GetAllDistributorsBL();
+                        if (serial <= distributors.Count - 1)
+                        {
+                            //Confirmation
+                            Distributor distributor = distributors[serial];
+                            Write("Are you sure? (Y/N): ");
+                            string confirmation = ReadLine();
+
+                            if (confirmation.Equals("Y", StringComparison.OrdinalIgnoreCase))
+                            {
+                                //Invoke DeleteDistributorBL method to delete
+                                bool isDeleted = await distributorBL.DeleteDistributorBL(distributor.DistributorID);
+                                if (isDeleted)
+                                {
+                                    WriteLine("Distributor Deleted");
+                                }
+                            }
+                        }
+                        else
+                        {
+                            WriteLine($"Invalid Distributor #.\nPlease enter a number between 1 to {distributors.Count}");
+                        }
+                    }
+                    else
+                    {
+                        WriteLine($"Invalid number.");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ExceptionLogger.LogException(ex);
+                WriteLine(ex.Message);
+            }
+        }
+
+
+        /// <summary>
+        /// Updates SystemUser's Password.
+        /// </summary>
+        /// <returns></returns>
+        public static async Task ChangeSystemUserPassword()
+        {
+            try
+            {
+                using (ISystemUserBL systemUserBL = new SystemUserBL())
+                {
+                    //Read Current Password
+                    Write("Current Password: ");
+                    string currentPassword = ReadLine();
+                    
+
+                    SystemUser existingSystemUser = await systemUserBL.GetSystemUserByEmailAndPasswordBL(CommonData.CurrentUser.Email, currentPassword);
+
+                    if (existingSystemUser != null)
+                    {
+                        //Read inputs
+                        Write("New Password: ");
+                        string newPassword = ReadLine();
+                        Write("Confirm Password: ");
+                        string confirmPassword = ReadLine();
+
+                        if (newPassword.Equals(confirmPassword))
+                        {
+                            existingSystemUser.Password = newPassword;
+
+                            //Invoke UpdateSystemUserBL method to update
+                            bool isUpdated = await systemUserBL.UpdateSystemUserPasswordBL(existingSystemUser);
+                            if (isUpdated)
+                            {
+                                WriteLine("System User Password Updated");
+                            }
+                        }
+                        else
+                        {
+                            WriteLine($"New Password and Confirm Password doesn't match");
+                        }
+                    }
+                    else
+                    {
+                        WriteLine($"Current Password doesn't match.");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ExceptionLogger.LogException(ex);
+                WriteLine(ex.Message);
+            }
+        }
+
+
+        /// <summary>
+        /// Displays list of Raw Material.
+        /// </summary>
+        /// <returns></returns>
+        public static async Task ViewRawMaterials()
+        {
+            try
+            {
+                using (IRawMaterialBL rawMaterialBL = new RawMaterialBL())
+                {
+                    //Get and display list of raw materials
+                    List<RawMaterial> rawMaterials = await rawMaterialBL.GetAllRawMaterialsBL();
+                    WriteLine("RawMaterials:");
+                    if (rawMaterials != null && rawMaterials?.Count > 0)
+                    {
+                        WriteLine("#\tName\tCode\tPrice\tCreated\tModified");
+                        int serial = 0;
+                        foreach (var rawMaterial in rawMaterials)
+                        {
+                            serial++;
+                            WriteLine($"{serial}\t{rawMaterial.RawMaterialName}\t{rawMaterial.RawMaterialCode}\t{rawMaterial.RawMaterialPrice}\t{rawMaterial.CreationDateTime}\t{rawMaterial.LastModifiedDateTime}");
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ExceptionLogger.LogException(ex);
+                WriteLine(ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Adds Raw material.
+        /// </summary>
+        /// <returns></returns>
+        public static async Task AddRawMaterial()
+        {
+            try
+            {
+                //Read inputs
+                RawMaterial RawMaterial = new RawMaterial();
+                Write("Name: ");
+                RawMaterial.RawMaterialName = ReadLine();
+                Write("Code: ");
+                RawMaterial.RawMaterialCode = ReadLine();
+                Write("Price: ");
+                bool isNumberValid = double.TryParse(ReadLine(), out double price);
+                while (!isNumberValid)
+                {
+                    WriteLine("Please enter a valid number");
+                    isNumberValid = double.TryParse(ReadLine(), out price);
+                }
+                RawMaterial.RawMaterialPrice = price;
+
+                //Invoke AddRawMaterialBL method to add
+                using (IRawMaterialBL rawMaterialBL = new RawMaterialBL())
+                {
+                    bool isAdded = await rawMaterialBL.AddRawMaterialBL(RawMaterial);
+                    if (isAdded)
+                    {
+                        WriteLine("RawMaterial Added");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ExceptionLogger.LogException(ex);
+                WriteLine(ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Updates Raw Material.
+        /// </summary>
+        /// <returns></returns>
+        public static async Task UpdateRawMaterial()
+        {
+            try
+            {
+                using (IRawMaterialBL rawMaterialBL = new RawMaterialBL())
+                {
+                    //Read Sl.No
+                    Write("RawMaterial #: ");
+                    bool isNumberValid = int.TryParse(ReadLine(), out int serial);
+                    if (isNumberValid)
+                    {
+                        serial--;
+                        List<RawMaterial> rawMaterials = await rawMaterialBL.GetAllRawMaterialsBL();
+                        if (serial <= rawMaterials.Count - 1)
+                        {
+                            //Read inputs
+                            RawMaterial rawMaterial = rawMaterials[serial];
+                            Write("Name: ");
+                            rawMaterial.RawMaterialName = ReadLine();
+                            Write("Code: ");
+                            rawMaterial.RawMaterialCode = ReadLine();
+                            Write("Price: ");
+                            bool isPriceValid = double.TryParse(ReadLine(), out double price);
+                            while (!isNumberValid)
+                            {
+                                WriteLine("Please enter a valid number");
+                                isNumberValid = double.TryParse(ReadLine(), out price);
+                            }
+                            rawMaterial.RawMaterialPrice = price;
+                            rawMaterial.LastModifiedDateTime = DateTime.Now;
+
+                            //Invoke UpdateRawMaterialBL method to update
+                            bool isUpdated = await rawMaterialBL.UpdateRawMaterialBL(rawMaterial);
+                            if (isUpdated)
+                            {
+                                WriteLine("RawMaterial Updated");
+                            }
+                        }
+                        else
+                        {
+                            WriteLine($"Invalid RawMaterial #.\nPlease enter a number between 1 to {rawMaterials.Count}");
+                        }
+                    }
+                    else
+                    {
+                        WriteLine($"Invalid number.");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ExceptionLogger.LogException(ex);
+                WriteLine(ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Delete RawMaterial.
+        /// </summary>
+        /// <returns></returns>
+        public static async Task DeleteRawMaterial()
+        {
+            try
+            {
+                using (IRawMaterialBL rawMaterialBL = new RawMaterialBL())
+                {
+                    //Read Sl.No
+                    Write("RawMaterial #: ");
+                    bool isNumberValid = int.TryParse(ReadLine(), out int serial);
+                    if (isNumberValid)
+                    {
+                        serial--;
+                        List<RawMaterial> rawMaterials = await rawMaterialBL.GetAllRawMaterialsBL();
+                        if (serial <= rawMaterials.Count - 1)
+                        {
+                            //Confirmation
+                            RawMaterial rawMaterial = rawMaterials[serial];
+                            Write("Are you sure? (Y/N): ");
+                            string confirmation = ReadLine();
+
+                            if (confirmation.Equals("Y", StringComparison.OrdinalIgnoreCase))
+                            {
+                                //Invoke DeleteRawMaterialBL method to delete
+                                bool isDeleted = await rawMaterialBL.DeleteRawMaterialBL(rawMaterial.RawMaterialID);
+                                if (isDeleted)
+                                {
+                                    WriteLine("RawMaterial Deleted");
+                                }
+                            }
+                        }
+                        else
+                        {
+                            WriteLine($"Invalid RawMaterial #.\nPlease enter a number between 1 to {rawMaterials.Count}");
+                        }
+                    }
+                    else
+                    {
+                        WriteLine($"Invalid number.");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ExceptionLogger.LogException(ex);
+                WriteLine(ex.Message);
+            }
+        }
+
+        #region Product
+
+        /// <summary>
+        /// Displays list of Product.
+        /// </summary>
+        /// <returns></returns>
+        public static async Task ViewProducts()
+        {
+            try
+            {
+                using (IProductBL productBL = new ProductBL())
+                {
+                    //Get and display list of products
+                    List<Product> products = await productBL.GetAllProductsBL();
+                    WriteLine("Products:");
+                    if (products != null && products?.Count > 0)
+                    {
+                        WriteLine("#\tName\tCode\tPrice\tCreated\tModified");
+                        int serial = 0;
+                        foreach (var product in products)
+                        {
+                            serial++;
+                            WriteLine($"{serial}\t{product.ProductName}\t{product.ProductCode}\t{product.ProductPrice}\t{product.CreationDateTime}\t{product.LastModifiedDateTime}");
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ExceptionLogger.LogException(ex);
+                WriteLine(ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Adds Product.
+        /// </summary>
+        /// <returns></returns>
+        public static async Task AddProduct()
+        {
+            try
+            {
+                //Read inputs
+                Product product = new Product();
+                Write("Name: ");
+                product.ProductName = ReadLine();
+                Write("Code: ");
+                product.ProductCode = ReadLine();
+                Write("Price: ");
+                bool isNumberValid = double.TryParse(ReadLine(), out double price);
+                while (!isNumberValid)
+                {
+                    WriteLine("Please enter a valid number");
+                    isNumberValid = double.TryParse(ReadLine(), out price);
+                }
+                product.ProductPrice = price;
+
+                //Invoke AddProductBL method to add
+                using (IProductBL productBL = new ProductBL())
+                {
+                    bool isAdded = await productBL.AddProductBL(product);
+                    if (isAdded)
+                    {
+                        WriteLine("Product Added");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ExceptionLogger.LogException(ex);
+                WriteLine(ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Updates Product.
+        /// </summary>
+        /// <returns></returns>
+        public static async Task UpdateProduct()
+        {
+            try
+            {
+                using (IProductBL productBL = new ProductBL())
+                {
+                    //Read Sl.No
+                    Write("Product #: ");
+                    bool isNumberValid = int.TryParse(ReadLine(), out int serial);
+                    if (isNumberValid)
+                    {
+                        serial--;
+                        List<Product> products = await productBL.GetAllProductsBL();
+                        if (serial <= products.Count - 1)
+                        {
+                            //Read inputs
+                            Product product = products[serial];
+                            Write("Name: ");
+                            product.ProductName = ReadLine();
+                            Write("Code: ");
+                            product.ProductCode = ReadLine();
+                            Write("Price: ");
+                            bool isPriceValid = double.TryParse(ReadLine(), out double price);
+                            while (!isNumberValid)
+                            {
+                                WriteLine("Please enter a valid number");
+                                isNumberValid = double.TryParse(ReadLine(), out price);
+                            }
+                            product.ProductPrice = price;
+                            product.LastModifiedDateTime = DateTime.Now;
+                            //Invoke UpdateProductBL method to update
+                            bool isUpdated = await productBL.UpdateProductBL(product);
+                            if (isUpdated)
+                            {
+                                WriteLine("Product Updated");
+                            }
+                        }
+                        else
+                        {
+                            WriteLine($"Invalid Product #.\nPlease enter a number between 1 to {products.Count}");
+                        }
+                    }
+                    else
+                    {
+                        WriteLine($"Invalid number.");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ExceptionLogger.LogException(ex);
+                WriteLine(ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Delete Product.
+        /// </summary>
+        /// <returns></returns>
+        public static async Task DeleteProduct()
+        {
+            try
+            {
+                using (IProductBL productBL = new ProductBL())
+                {
+                    //Read Sl.No
+                    Write("Product #: ");
+                    bool isNumberValid = int.TryParse(ReadLine(), out int serial);
+                    if (isNumberValid)
+                    {
+                        serial--;
+                        List<Product> products = await productBL.GetAllProductsBL();
+                        if (serial <= products.Count - 1)
+                        {
+                            //Confirmation
+                            Product product = products[serial];
+                            Write("Are you sure? (Y/N): ");
+                            string confirmation = ReadLine();
+
+                            if (confirmation.Equals("Y", StringComparison.OrdinalIgnoreCase))
+                            {
+                                //Invoke DeleteProductBL method to delete
+                                bool isDeleted = await productBL.DeleteProductBL(product.ProductID);
+                                if (isDeleted)
+                                {
+                                    WriteLine("Product Deleted");
+                                }
+                            }
+                        }
+                        else
+                        {
+                            WriteLine($"Invalid Product #.\nPlease enter a number between 1 to {products.Count}");
+                        }
+                    }
+                    else
+                    {
+                        WriteLine($"Invalid number.");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ExceptionLogger.LogException(ex);
+                WriteLine(ex.Message);
+            }
+        }
+
+        #endregion
+        public static async Task PlaceOrder()
+        {
+            try
+            {
+                string choice1 = "N";
+                List<RawMaterial> selectedRawMaterials = new List<RawMaterial>();
+                List<double> quantitylist = new List<double>();
+                RawMaterialOrder RawMaterialorder = new RawMaterialOrder();
+                IRawMaterialOrderBL RawMaterialorderBL = new RawMaterialOrderBL();
+                ISupplierBL SupplierBL = new SupplierBL();
+                Supplier Supplier = new Supplier();
+                RawMaterial RawMaterial = new RawMaterial();
+                RawMaterialBL rawMaterialBL = new RawMaterialBL();
+                IRawMaterialOrderDetailBL RawMaterialorderDetailBL = new RawMaterialOrderDetailBL();
+                Supplier = await SupplierBL.GetSupplierByEmailBL(CommonData.CurrentUser.Email);
+
+                List<RawMaterial> RawMaterialList = new List<RawMaterial>();
+
+
+                RawMaterialList = await rawMaterialBL.GetAllRawMaterialsBL();
+                WriteLine("List of Available Raw Materials");
+                foreach (RawMaterial item in RawMaterialList)
+                {
+                    WriteLine(item.RawMaterialName + "  " + item.RawMaterialCode);
+                }
+                do
+                {
+                    WriteLine("Enter the code of the RawMaterial ");
+                    string code = ReadLine();
+                    RawMaterial rawMaterial = await rawMaterialBL.GetRawMaterialByRawMaterialCodeBL(code);
+                    while (rawMaterial == null)
+                    {
+                        WriteLine("please enter valid raw material code");
+                        code = ReadLine();
+                        rawMaterial = await rawMaterialBL.GetRawMaterialByRawMaterialCodeBL(code);
+
+                    }
+                    WriteLine("Enter the Quantity of the RawMaterial ");
+                    double quantity = double.Parse(ReadLine());
+                    quantitylist.Add(quantity);
+
+
+
+
+                    selectedRawMaterials.Add(rawMaterial);
+
+             
+                    Console.WriteLine("Do you want to add more RawMaterials? Enter  Y/N");
+                    choice1 = Console.ReadLine();
+                } while (choice1 == "Y");
+
+                int j = 0;
+                double totalorderprice = 0.00;
+                double totalquantity = 0.0;
+
+                foreach (RawMaterial item in selectedRawMaterials)
+                {
+                    totalorderprice += item.RawMaterialPrice * quantitylist[j];
+                    totalquantity += quantitylist[j];
+                    j++;
+                }
+                Console.WriteLine("Total price of the order  " + totalorderprice);
+                Console.WriteLine("do you want to place the order? \n Enter 1 for yes 0 for no ");
+                int m = int.Parse(Console.ReadLine());
+                Guid orderID;
+                if (m == 1)
+                {
+                    SupplierBL supplierBL = new SupplierBL();
+                    List<Supplier> suppliers = await supplierBL.GetAllSuppliersBL();
+                    WriteLine("SUPPLIERS:");
+                    if (suppliers != null)
+                    {
+                        WriteLine("#\tName\tMobile\tEmail\tCreated\tModified");
+                        int serial = 0;
+                        foreach (Supplier supplier in suppliers)
+                        {
+                            serial++;
+                            WriteLine($"{serial}\t{supplier.SupplierName}\t{supplier.SupplierMobile}\t{supplier.Email}\t{supplier.CreationDateTime}\t{supplier.LastModifiedDateTime}");
+                        }
+                    }
+                    WriteLine("chose the supplier ");
+                    int choice = int.Parse(ReadLine());
+
+
+                    RawMaterialorder.RawMaterialTotalPrice = totalorderprice;
+
+                    RawMaterialorder.SupplierID = suppliers[choice - 1].SupplierID;
+
+
+                    RawMaterialorder.RawMaterialTotalQuantity = totalquantity;
+                    (bool isAdded, Guid id) = await RawMaterialorderBL.AddRawMaterialOrderBL(RawMaterialorder);
+                    for (int i = 0; i < selectedRawMaterials.Count; i++)
+
+                    {
+                        RawMaterialOrderDetail RawMaterialorderdetail = new RawMaterialOrderDetail();
+                        RawMaterialorderdetail.RawMaterialOrderID = RawMaterialorderdetail.RawMaterialOrderID;
+                        RawMaterial = await rawMaterialBL.GetRawMaterialByRawMaterialCodeBL(selectedRawMaterials[i].RawMaterialCode);
+                        RawMaterialorderdetail.RawMaterialID = RawMaterial.RawMaterialID;
+                        RawMaterialorderdetail.RawMaterialQuantity = quantitylist[i];
+                        RawMaterialorderdetail.RawMaterialUnitPrice = RawMaterial.RawMaterialPrice;
+                        RawMaterialorderdetail.RawMaterialTotalPrice = quantitylist[i] * RawMaterial.RawMaterialPrice;
+
+                        await RawMaterialorderDetailBL.AddRawMaterialOrderDetailBL(RawMaterialorderdetail);
+                    }
+
+                }
+            }
+            catch (Exception ex)
+            {
+                ExceptionLogger.LogException(ex);
+                WriteLine(ex.Message);
+            }
+
+
+        }
+        public static async Task DeleteOrder()
+        {
+            try
+            {
+                using (RawMaterialOrderBL RawMaterialorderBL = new RawMaterialOrderBL())
+                {
+                    //Read Sl.No
+                    Write("Order #: ");
+                    bool isNumberValid = int.TryParse(ReadLine(), out int serial);
+                    if (isNumberValid)
+                    {
+                        serial--;
+                        List<RawMaterialOrder> RawMaterialorders = await RawMaterialorderBL.GetAllRawMaterialOrdersBL();
+                        if (serial <= RawMaterialorders.Count - 1)
+                        {
+                            //Confirmation
+                            RawMaterialOrder RawMaterialorder = RawMaterialorders[serial];
+                            Write("Are you sure? (Y/N): ");
+                            string confirmation = ReadLine();
+
+                            if (confirmation.Equals("Y", StringComparison.OrdinalIgnoreCase))
+                            {
+                                //Invoke DeleteSupplierBL method to delete
+                                (bool isDeleted, Guid id) = await RawMaterialorderBL.DeleteRawMaterialOrderBL(RawMaterialorder.RawMaterialOrderID);
+                                if (isDeleted)
+                                {
+                                    WriteLine("Order Deleted");
+                                }
+                                RawMaterialOrderDetailBL RawMaterialorderDetailBL = new RawMaterialOrderDetailBL();
+                                List<RawMaterialOrderDetail> detailsList = await RawMaterialorderDetailBL.GetAllRawMaterialOrderDetailsBL();
+                                foreach (RawMaterialOrderDetail item in detailsList)
+                                {
+                                    if (item.RawMaterialOrderID == RawMaterialorder.RawMaterialOrderID)
+                                    {
+                                        await RawMaterialorderDetailBL.DeleteRawMaterialOrderDetailBL(item.RawMaterialOrderDetailID);
+                                    }
+                                }
+
+                            }
+                        }
+                        else
+                        {
+                            WriteLine($"Invalid Order #.\nPlease enter a number between 1 to {RawMaterialorders.Count}");
+                        }
+                    }
+                    else
+                    {
+                        WriteLine($"Invalid number.");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ExceptionLogger.LogException(ex);
+                WriteLine(ex.Message);
+            }
+        }
+    }
+}
+
+
+    
+

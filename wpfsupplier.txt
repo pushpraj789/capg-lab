@@ -1,0 +1,32 @@
+<Window x:Class="Inventory.WPF.AddProductOrder"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Inventory.WPF"
+        mc:Ignorable="d"
+        Title="AddProductOrder" Height="450" Width="800" Background="AntiqueWhite">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="259*"/>
+            <ColumnDefinition Width="144*"/>
+            <ColumnDefinition Width="44*"/>
+            <ColumnDefinition Width="376*"/>
+        </Grid.ColumnDefinitions>
+
+        <Label Content="Address Line1" HorizontalAlignment="Left" Margin="28,71,0,0" VerticalAlignment="Top" Height="26" Width="96"/>
+        <Label Content="City" HorizontalAlignment="Left" Margin="42,238,0,0" VerticalAlignment="Top" Height="26" Width="88"/>
+
+        <TextBox HorizontalAlignment="Left" Height="23" Margin="214,185,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120" Grid.ColumnSpan="2"/>
+        <Label Content="Address Line2" HorizontalAlignment="Left" Margin="28,127,0,0" VerticalAlignment="Top" Width="95" Height="26"/>
+        <TextBox HorizontalAlignment="Left" Height="23" Margin="214,66,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120" Grid.ColumnSpan="2"/>
+        <Label Content="PinCode" HorizontalAlignment="Left" Margin="42,190,0,0" VerticalAlignment="Top" Width="87" Height="26"/>
+        <Label Content="State" HorizontalAlignment="Left" Margin="42,287,0,0" VerticalAlignment="Top" Width="81" Height="26" RenderTransformOrigin="0.475,1.011"/>
+        <TextBox HorizontalAlignment="Left" Height="23" Margin="214,127,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120" Grid.ColumnSpan="2"/>
+        <TextBox HorizontalAlignment="Left" Height="23" Margin="214,290,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120" Grid.ColumnSpan="2"/>
+        <TextBox HorizontalAlignment="Left" Height="23" Margin="214,238,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120" Grid.ColumnSpan="2"/>
+        <Button Content="Add Address" HorizontalAlignment="Left" Margin="10,356,0,0" VerticalAlignment="Top" Width="98" Height="20"/>
+        <Button Content="Update Address" HorizontalAlignment="Right" Margin="0,356,54,0" VerticalAlignment="Top" Width="107" RenderTransformOrigin="0.106,0.635" Height="20" Grid.ColumnSpan="2"/>
+
+    </Grid>
+</Window>

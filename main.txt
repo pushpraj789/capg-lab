@@ -1,0 +1,128 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Shapes;
+using Capgemini.Inventory.BusinessLayer;
+using Capgemini.Inventory.Entities;
+using Capgemini.Inventory.DataAccessLayer;
+using Capgemini.Inventory.Exceptions;
+using Capgemini.Inventory.Helpers;
+
+namespace Inventory.WPF
+{
+    /// <summary>
+    /// Interaction logic for Window1.xaml
+    /// </summary>
+    public partial class Window1 : Window
+    {
+        
+       
+        public Window1()
+        {
+            InitializeComponent();
+        }
+
+        private async void AddAdress_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                SupplierAddress supplierAddress = new SupplierAddress();
+
+               
+
+                supplierAddress.AddressLine1= txtadl1.Text;
+                supplierAddress.AddressLine2 = txtadl2.Text;
+                supplierAddress.PinCode = txtpc.Text;
+                supplierAddress.City = txtct.Text;
+                supplierAddress.State = txtst.Text;
+
+
+
+                using (SupplierAddressBL supplierAddressBL = new SupplierAddressBL())
+                {
+                    bool SupplierAddressAdded = false;
+                    Guid id1 = new Guid();
+                    (SupplierAddressAdded, id1) = await supplierAddressBL.AddSupplierAddressBL(supplierAddress);
+                    if (SupplierAddressAdded)
+                    {
+                        MessageBox.Show($"SupplierAddress {supplierAddress.SupplierAddressID} added");
+                        this.Close();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ExceptionLogger.LogException(ex);
+                MessageBox.Show(ex.Message);
+            }
+
+        }
+
+        private  async void UpAdress_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                SupplierAddress supplierAddress = new SupplierAddress();
+
+                supplierAddress.AddressLine1 = txtadl1.Text;
+                supplierAddress.AddressLine2 = txtadl2.Text;
+                supplierAddress.PinCode = txtpc.Text;
+                supplierAddress.City = txtct.Text;
+                supplierAddress.State = txtst.Text;
+
+
+
+                using (SupplierAddressBL supplierAddressBL = new SupplierAddressBL())
+                {
+                    bool SupplierAddressUpdated = false;
+                    
+                    (SupplierAddressUpdated) = await supplierAddressBL.UpdateSupplierAddressBL(supplierAddress);
+                    if (SupplierAddressUpdated)
+                    {
+                        MessageBox.Show($"SupplierAddress {supplierAddress.SupplierAddressID} added");
+                        this.Close();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ExceptionLogger.LogException(ex);
+                MessageBox.Show(ex.Message);
+            }
+
+
+        }
+
+        private void Reset_Click(object sender, RoutedEventArgs e)
+        {
+            txtadl1.Text = string.Empty;
+            txtadl2.Text = string.Empty;
+            txtpc.Text = string.Empty;
+            txtct.Text = string.Empty;
+            txtst.Text = string.Empty;
+        }
+
+        private void RemovAd_Click(object sender, RoutedEventArgs e)
+        {
+            RemoveAddress removeAddress = new RemoveAddress();
+            removeAddress.Show();
+            this.Close();
+        }
+
+        private void ViewAdd_Click(object sender, RoutedEventArgs e)
+        {
+            ViewAddress viewAddress = new ViewAddress();
+            viewAddress.Show();
+            this.Close();
+        }
+    }
+}

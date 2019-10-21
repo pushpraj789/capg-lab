@@ -1,0 +1,63 @@
+<Label x:Name="lblStatus" Content="count" Margin="583,256,57,136"/>
+        <DataGrid x:Name="dgvData" HorizontalAlignment="Left" Height="175" Margin="35,38,0,0" VerticalAlignment="Top" Width="725"/>
+
+
+----------------------------------
+remove
+ <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Label x:Name="lblStatus" Content="count" Margin="583,256,57,136"/>
+        <DataGrid x:Name="dgvData" HorizontalAlignment="Left" Height="175" Margin="35,38,0,0" VerticalAlignment="Top" Width="725"/>
+        <Label Content="Address ID" HorizontalAlignment="Left" Margin="74,237,0,0" VerticalAlignment="Top" Height="26" Width="96"/>
+        <Label Content="Address Line1" HorizontalAlignment="Left" Margin="69,279,0,0" VerticalAlignment="Top" Width="95" Height="26"/>
+        <Label Content="Address Line2" HorizontalAlignment="Left" Margin="65,315,0,0" VerticalAlignment="Top" Width="95" Height="26"/>
+        <TextBox x:Name="txtrID"   HorizontalAlignment="Left" Height="23" Margin="206,241,0,0" TextWrapping="Wrap" Text="AddressID" VerticalAlignment="Top" Width="296" TextChanged="TxtrID_TextChanged"/>
+        <TextBox x:Name="txtradl1"   HorizontalAlignment="Left" Height="23" Margin="206,280,0,0" TextWrapping="Wrap" Text="AddressLine2" VerticalAlignment="Top" Width="297"/>
+        <TextBox x:Name="txtradl2"   HorizontalAlignment="Left" Height="23" Margin="205,318,0,0" TextWrapping="Wrap" Text="AddressLine2" VerticalAlignment="Top" Width="297"/>
+        <Button  x:Name="DtAdress" Content="Delete Address" Click="DtAdress_Click" HorizontalAlignment="Right" Margin="0,302,51,0" VerticalAlignment="Top" Width="163" RenderTransformOrigin="0.106,0.635" Height="45"/>
+        <Button  x:Name="Refresh" Content="refresh" Click="BtnRefresh_Click" HorizontalAlignment="Right" Margin="0,368,562,0" VerticalAlignment="Top" Width="163" RenderTransformOrigin="0.106,0.635" Height="21"/>
+   
+-----------------------------------------------------------------------------------------------------------------------
+adddd main
+ <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+
+        <DockPanel>
+            <Menu DockPanel.Dock="Top">
+                <MenuItem Background="Linen" Header="Address">
+                    <MenuItem Header="View Address" Click="ViewAdd_Click"/>
+                    <MenuItem Header="Delete Address" Click="RemovAd_Click"/>
+                </MenuItem>
+            </Menu>
+            <StackPanel></StackPanel>
+        </DockPanel>
+        <Label Content="Address Line1" HorizontalAlignment="Left" Margin="28,71,0,0" VerticalAlignment="Top" Height="26" Width="96"/>
+        <Label Content="Address Line2" HorizontalAlignment="Left" Margin="28,127,0,0" VerticalAlignment="Top" Width="95" Height="26"/>
+        <Label Content="City" HorizontalAlignment="Left" Margin="42,238,0,0" VerticalAlignment="Top" Height="26" Width="88"/>
+        <Label Content="PinCode" HorizontalAlignment="Left" Margin="42,190,0,0" VerticalAlignment="Top" Width="87" Height="26"/>
+        <Label Content="State" HorizontalAlignment="Left" Margin="42,287,0,0" VerticalAlignment="Top" Width="81" Height="26" RenderTransformOrigin="0.475,1.011"/>
+
+
+        <TextBox x:Name="txtadl1"   HorizontalAlignment="Left" Height="23" Margin="214,66,0,0" TextWrapping="Wrap" Text="AddressLine1" VerticalAlignment="Top" Width="120"/>
+        <TextBox x:Name="txtadl2"   HorizontalAlignment="Left" Height="23" Margin="214,127,0,0" TextWrapping="Wrap" Text="AddressLine2" VerticalAlignment="Top" Width="120"/>
+        <TextBox x:Name="txtpc"   HorizontalAlignment="Left" Height="23" Margin="214,185,0,0" TextWrapping="Wrap" Text="Pincode" VerticalAlignment="Top" Width="120"/>
+        <TextBox x:Name="txtct"  HorizontalAlignment="Left" Height="23" Margin="214,238,0,0" TextWrapping="Wrap" Text="City" VerticalAlignment="Top" Width="120"/>
+        <TextBox x:Name="txtst"   HorizontalAlignment="Left" Height="23" Margin="214,290,0,0" TextWrapping="Wrap" Text="State" VerticalAlignment="Top" Width="120"/>
+
+
+
+        <Button x:Name="AddAdress"  Content="Add Address" Click="AddAdress_Click"  HorizontalAlignment="Left" Margin="459,93,0,0" VerticalAlignment="Top" Width="165" Height="41" RenderTransformOrigin="0.5,0.5">
+            <Button.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform Angle="-0.523"/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Button.RenderTransform>
+        </Button>
+        <Button  x:Name="UpAdress" Content="Update Address" Click="UpAdress_Click" HorizontalAlignment="Right" Margin="0,189,169,0" VerticalAlignment="Top" Width="163" RenderTransformOrigin="0.106,0.635" Height="45"/>
+        <Button x:Name="Reset" Content="Reset" Click="Reset_Click" HorizontalAlignment="Left" Margin="33,349,0,0" VerticalAlignment="Top" Width="89" Height="30"/>

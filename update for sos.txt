@@ -1,0 +1,33 @@
+ private async void UpSup_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                Supplier supplier = new Supplier();
+
+                supplier.SupplierID = Guid.Parse(txtrsID.Text);
+                supplier.SupplierName = txtrsn.Text;
+                supplier.SupplierMobile = txtrmn.Text;
+                supplier.Email = txtrem.Text;
+
+
+
+
+                using (SupplierBL supplierBL = new SupplierBL())
+                {
+                    bool supplierUpdated = false;
+
+                    (supplierUpdated) = await supplierBL.UpdateSupplierBL(supplier);
+                    if (supplierUpdated)
+                    {
+                        MessageBox.Show($"SupplierAddress {supplier.SupplierID} updated");
+                        this.Close();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ExceptionLogger.LogException(ex);
+                MessageBox.Show(ex.Message);
+            }
+
+        }

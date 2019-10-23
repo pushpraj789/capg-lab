@@ -1,0 +1,185 @@
+<Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Label x:Name="lblStatusSN" Content="count" Margin="514,168,126,224"/>
+        <DataGrid x:Name="dgvDataSN" HorizontalAlignment="Left" Height="175" Margin="19,229,0,0" VerticalAlignment="Top" Width="755" SelectionChanged="DgvDataSN_SelectionChanged"/>
+        <Label Content="Supplier ID" HorizontalAlignment="Left" Margin="26,31,0,0" VerticalAlignment="Top" Height="26" Width="96"/>
+        <Label Content="Supplier Name" HorizontalAlignment="Left" Margin="24,80,0,0" VerticalAlignment="Top" Width="95" Height="26"/>
+        <Label Content="Supplier Mobile" HorizontalAlignment="Left" Margin="19,134,0,0" VerticalAlignment="Top" Width="95" Height="26"/>
+        <Label Content="Email" HorizontalAlignment="Left" Margin="26,184,0,0" VerticalAlignment="Top" Width="95" Height="26"/>
+        <TextBox x:Name="txtrsID"   HorizontalAlignment="Left" Height="23" Margin="166,34,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="296" TextChanged="TxtrID_TextChanged"/>
+        <TextBox x:Name="txtrsn"   HorizontalAlignment="Left" Height="23" Margin="165,84,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="297"/>
+        <TextBox x:Name="txtrmn"   HorizontalAlignment="Left" Height="23" Margin="163,131,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="297"/>
+        <TextBox x:Name="txtrem"   HorizontalAlignment="Left" Height="23" Margin="167,183,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="297"/>
+        <Button  x:Name="DtSupN" Content="Delete Supplier" Click="DtSup_Click" HorizontalAlignment="Right" Margin="0,16,118,0" VerticalAlignment="Top" Width="163" RenderTransformOrigin="0.106,0.635" Height="22"/>
+        <Button  x:Name="UpAdress" Content="Update Supplier" Click="UpSup_Click" HorizontalAlignment="Right" Margin="0,52,116,0" VerticalAlignment="Top" Width="163" RenderTransformOrigin="0.106,0.635" Height="23"/>
+        <Button  x:Name="gotohome" Content="Home" Click="Home_Click" HorizontalAlignment="Right" Margin="0,133,116,0" VerticalAlignment="Top" Width="163" RenderTransformOrigin="0.106,0.635" Height="23"/>
+    </Grid>
+    
+    -------------------------------------------
+    
+    
+    
+    
+    
+    
+    
+    
+    using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Shapes;
+using Capgemini.Inventory.BusinessLayer;
+using Capgemini.Inventory.Entities;
+using Capgemini.Inventory.DataAccessLayer;
+using Capgemini.Inventory.Exceptions;
+using Capgemini.Inventory.Helpers;
+
+namespace Inventory.WPF
+{
+    /// <summary>
+    /// Interaction logic for RemoveSupplierN.xaml
+    /// </summary>
+    public partial class RemoveSupplierN : Window
+    {
+        public RemoveSupplierN()
+        {
+            InitializeComponent();
+            loaddata2();
+        }
+        
+        private async void DtSup_Click(object sender, RoutedEventArgs e)
+        {
+            
+            try
+            {
+                Supplier supplier = new Supplier();
+
+
+                supplier.SupplierID = Guid.Parse(txtrsID.Text);
+
+                using (SupplierBL supBL = new SupplierBL())
+                {
+                    bool SupplierAddressDeleted = await supBL.DeleteSupplierBL(supplier.SupplierID);
+                    if (SupplierAddressDeleted)
+                    {
+                        MessageBox.Show($"SupplierID {supplier.SupplierID} deleted");
+                        loaddata2();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ExceptionLogger.LogException(ex);
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+
+        private async void UpSup_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                Supplier supplier = new Supplier();
+
+                supplier.SupplierID = Guid.Parse(txtrsID.Text);
+                supplier.SupplierName = txtrsn.Text;
+                supplier.SupplierMobile = txtrmn.Text;
+                supplier.Email = txtrem.Text;
+
+
+
+
+                using (SupplierBL supplierBL = new SupplierBL())
+                {
+                    bool supplierUpdated = false;
+
+                    (supplierUpdated) = await supplierBL.UpdateSupplierBL(supplier);
+                    if (supplierUpdated)
+                    {
+                        MessageBox.Show($"SupplierAddress {supplier.SupplierID} updated");
+                        this.Close();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ExceptionLogger.LogException(ex);
+                MessageBox.Show(ex.Message);
+            }
+
+        }
+
+        //get values in textbox when datagrid selection changes
+
+        private void DgvDataSN_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            int rowindex = dgvDataSN.SelectedIndex;
+            if (rowindex < 0)
+            {
+                return;
+            }
+            txtrsID.Text = getCellData(dgvDataSN, rowindex, 0);
+            txtrsn.Text = getCellData(dgvDataSN, rowindex, 1);
+            txtrmn.Text = getCellData(dgvDataSN, rowindex, 2);
+            txtrem.Text = getCellData(dgvDataSN, rowindex, 3);
+        }
+
+       
+
+        //load data to datagrid from collection
+        private async void loaddata2()
+        {
+            Supplier supplier = new Supplier();
+            List<Supplier> supList = new List<Supplier>();
+            try
+            {
+                using (SupplierBL supBL = new SupplierBL())
+                {
+                    supList = await supBL.GetAllSuppliersBL();
+                    if (supList.Count > 0)
+                    {
+                        dgvDataSN.ItemsSource = supList;
+                        lblStatusSN.Content = supList.Count.ToString();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ExceptionLogger.LogException(ex);
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+
+        //to get cellData of one row
+        private string getCellData(DataGrid dgv, int rowindex, int cellindex)
+        {
+            DataGridRow drow = dgv.ItemContainerGenerator.ContainerFromIndex(rowindex) as DataGridRow;
+            var cellContent = dgv.Columns[cellindex].GetCellContent(drow) as TextBlock;
+            return cellContent.Text;
+        }
+
+        private void Home_Click(object sender, RoutedEventArgs e)
+        {
+            Hide();
+            Window window = new Supplier1();
+            window.Show();
+        }
+
+        private void TxtrID_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
+    }
+}

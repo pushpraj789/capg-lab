@@ -1,0 +1,199 @@
+using System;
+using System.Collections.Generic;
+using Capgemini.Inventory.Contracts.DALContracts;
+using Inventory.Entities;
+using System.Data;
+using System.Data.SqlClient;
+using System.Linq;
+
+namespace Capgemini.Inventory.DataAccessLayer
+{
+    // Developed by Pushpraj Kaushik (Group 4)
+    // Creation Date : 2019/09/22
+    // Last Modified Date : 2019/10/16
+
+    /// <summary>
+    /// Contains data access layer methods for inserting, updating, deleting suppliers from Suppliers collection.
+    /// </summary>
+    public class SupplierDAL : SupplierDALBase, IDisposable
+    {
+        //create connection
+        SqlConnection sqlConn = new SqlConnection(Properties.Settings.Default.dbCon);
+
+        /// <summary>
+        /// Adds new supplier to Suppliers collection.
+        /// </summary>
+        /// <param name="newSupplier">Contains the supplier details to be added.</param>
+        /// <returns>Determinates whether the new supplier is added.</returns>
+        public override (bool, Guid) AddSupplierDAL(Supplier newSupplier)
+        {
+            using (Team_DEntities db = new Team_DEntities())
+            {
+              int n = db.AddSupplier(newSupplier.SupplierID = Guid.NewGuid(),newSupplier.SupplierName, newSupplier.SupplierMobile, newSupplier.Email, newSupplier.Password);
+            }
+            return (true, newSupplier.SupplierID);
+
+    }
+
+        /// <summary>
+        /// Gets all suppliers from the collection.
+        /// </summary>
+        /// <returns>Returns list of all suppliers.</returns>
+        public override List<Supplier> GetAllSuppliersDAL()
+        {
+            using (Team_DEntities db = new Team_DEntities())
+            {
+                List<Supplier> suppliers = db.Suppliers.ToList();
+                return suppliers;
+            }
+        }
+
+        /// <summary>
+        /// Gets supplier based on SupplierID.
+        /// </summary>
+        /// <param name="searchSupplierID">Represents SupplierID to search.</param>
+        /// <returns>Returns Supplier object.</returns>
+        public override Supplier GetSupplierBySupplierIDDAL(Guid searchSupplierID)
+        {
+            using (Team_DEntities db = new Team_DEntities())
+            {
+                Supplier supplier = db.Suppliers.Where(s => s.SupplierID == searchSupplierID).FirstOrDefault();
+                return supplier;
+            }
+        }
+
+
+        /// <summary>
+        /// Gets supplier based on SupplierName.
+        /// </summary>
+        /// <param name="supplierName">Represents SupplierName to search.</param>
+        /// <returns>Returns Supplier object.</returns>
+        public override List<Supplier> GetSuppliersByNameDAL(string supplierName)
+        {
+
+            using (Team_DEntities db = new Team_DEntities())
+            {
+                List<Supplier> suppliers = db.Suppliers.Where(s => s.SupplierName == supplierName).ToList();
+                return suppliers;
+
+            }
+
+        }
+
+        /// <summary>
+        /// Gets supplier based on email.
+        /// </summary>
+        /// <param name="email">Represents Supplier's Email Address.</param>
+        /// <returns>Returns Supplier object.</returns>
+        public override Supplier GetSupplierByEmailDAL(string email)
+        {
+            using (Team_DEntities db = new Team_DEntities())
+            {
+                Supplier supplier = db.Suppliers.Where(s => s.Email == email).FirstOrDefault();
+                return supplier;
+
+            }
+        }
+
+
+        /// <summary>
+        /// Gets supplier based on Email and Password.
+        /// </summary>
+        /// <param name="email">Represents Supplier's Email Address.</param>
+        /// <param name="password">Represents Supplier's Password.</param>
+        /// <returns>Returns Supplier object.</returns>
+        public override Supplier GetSupplierByEmailAndPasswordDAL(string email, string password)
+        {
+            using (Team_DEntities db = new Team_DEntities())
+            {
+                Supplier supplier = db.Suppliers.Where(s => s.Email == email && s.Password == password).FirstOrDefault();
+                return supplier;
+            }
+        }
+
+        /// <summary>
+        /// Updates supplier based on SupplierID.
+        /// </summary>
+        /// <param name="updateSupplier">Represents Supplier details including SupplierID, SupplierName etc.</param>
+        /// <returns>Determinates whether the existing supplier is updated.</returns>
+        public override bool UpdateSupplierDAL(Supplier updateSupplier)
+        {
+            using (Team_DEntities db = new Team_DEntities())
+            {
+                Supplier existingSupplier = db.Suppliers.Where(temp => temp.SupplierID == updateSupplier.SupplierID).FirstOrDefault();
+
+                if (existingSupplier == null)
+                {
+                    return false;
+                }
+                else
+                {
+                    existingSupplier.SupplierName = updateSupplier.SupplierName;
+                    existingSupplier.SupplierMobile = updateSupplier.SupplierMobile;
+                    existingSupplier.Email = updateSupplier.Email;
+                    existingSupplier.LastModifiedDateTime = DateTime.Now;
+                    db.SaveChanges();
+                    return true;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Deletes supplier based on SupplierID.
+        /// </summary>
+        /// <param name="deleteSupplierID">Represents SupplierID to delete.</param>
+        /// <returns>Determinates whether the existing supplier is updated.</returns>
+        public override bool DeleteSupplierDAL(Guid deleteSupplierID)
+        {
+            using (Team_DEntities db = new Team_DEntities())
+            {
+                Supplier existingSupplier = db.Suppliers.Where(temp => temp.SupplierID == deleteSupplierID).FirstOrDefault();
+
+                if (existingSupplier == null)
+                {
+                    return false;
+                }
+                else
+                {
+                    db.Suppliers.Remove(existingSupplier);
+                    db.SaveChanges();
+                    return true;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Updates supplier's password based on SupplierID.
+        /// </summary>
+        /// <param name="updateSupplier">Represents Supplier details including SupplierID, Password.</param>
+        /// <returns>Determinates whether the existing supplier's password is updated.</returns>
+        public override bool UpdateSupplierPasswordDAL(Supplier updateSupplier)
+        {
+            using (Team_DEntities db = new Team_DEntities())
+            {
+                Supplier existingSupplier = db.Suppliers.Where(temp => temp.SupplierID == updateSupplier.SupplierID).FirstOrDefault();
+
+                if (existingSupplier == null)
+                {
+                    return false;
+                }
+                else
+                {
+                    existingSupplier.Password = updateSupplier.Password;
+
+
+                    db.SaveChanges();
+                    return true;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Clears unmanaged resources such as db connections or file streams.
+        /// </summary>
+        public void Dispose()
+        {
+            //No unmanaged resources currently
+        }
+    }
+}

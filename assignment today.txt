@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <script src="Scripts/jquery-3.4.1.js"></script>
+    <script src="Scripts/jquery.validate.js"></script>
+    <style type="text/css">
+    </style>
+</head>
+<body onload="document.forms.bing.query.focus(); getSubscriptionKey();">
+    <h1> AI Tutorial</h1>
+    <form name="bing" oninput="return bingAutosuggest(this.query.value, getSubscriptionKey())">
+        <h2>Auto Suggest</h2>
+
+        <input type="text" name="query" id="ajax" list="json-datalist" placeholder="e.g. datalist">
+        <datalist id="json-datalist"></datalist>
+
+    </form>
+    <!--<h2>Results</h2>-->
+    <!--<div id="results">
+        <p>None yet.</p>
+    </div>-->
+
+
+
+</body>
+</html>
+<script type="text/javascript">
+    function pre(text) {
+        return "<pre>" + text.replace(/&/g, "&amp;").replace(/</g, "&lt;") + "</pre>"
+    }
+    function renderSearchResults(results) {
+        //document.getElementById("results").innerHTML = (JSON.stringify(results, null, 2));
+        //            //var input = document.getElementById('ajax');
+        //var dataList = document.getElementById('results');
+        //var jsonoptions = renderSearchResults(JSON.parse(this.responseText));
+
+        // Loop over the JSON array.
+        //jsonOptions.forEach(function (item) {
+        //    // Create a new <option> element.
+        //    var option = document.createElement('option');
+        //    // Set the value using the item in the JSON array.
+        //    option.value = item;
+        //    // Add the <option> element to the <datalist>.
+        //    dataList.appendChild(option);
+        //});
+    }
+    function renderErrorMessage(message, code) {
+        if (code)
+            document.getElementById("results").innerHTML = "<pre>Status" + code + ":" + message + "</pre>"
+
+        else
+            document.getElementById("results").innerHTML = "<pre>" + message + "</pre>";
+    }
+    function bingAutosuggest(query, key) {
+        var endpoint = "https://api.cognitive.microsoft.com/bing/v7.0/Suggestions";
+
+        var request = new XMLHttpRequest();
+        try {
+            request.open("GET", endpoint + "?q=" + encodeURIComponent(query));
+
+        }
+        catch (e) {
+            renderErrorMessage("Bad request");
+        }
+        request.setRequestHeader("Ocp-Apim-Subscription-Key", key);
+        request.addEventListener("load", function () {
+            if (this.status === 200) {
+                renderSearchResults(JSON.parse(this.responseText));
+                var results = JSON.parse(this.responseText);
+                var options = '';
+                for (var i = 0; i < results.suggestionGroups[0].searchSuggestions.length; i++) {
+                    options += '<option value= "'+results.suggestionGroups[0].searchSuggestions[i].displayText +'"/>';
+                }
+                document.getElementById('json-datalist').innerHTML = options;
+            }
+            else {
+                if (this.status == 401) getSubscriptionKey(true);
+                renderErrorMessage(this.statusText, this.status);
+            }
+
+        });
+        request.addEventListener("error", function () {
+            renderErrorMessage("Network error");
+        });
+        request.addEventListener("abort", function () {
+            renderErrorMessage("Request aborted");
+        });
+        request.send();
+        return false;
+    }
+</script>
+
+<script type="text/javascript">
+    getSubscriptionKey = function () {
+        var COOKIE = "bing-autosuggest-api-key";
+        function findCookie(name) {
+            var cookies = document.cookie.split(";");
+            for (var i = 0; i < cookies.length; i++) {
+                var keyvalue = cookies[i].split("=");
+                if (keyvalue[0].trim() == name) {
+                    return keyvalue[1];
+                }
+            }
+            return "";
+        }
+        function getSubscriptionKeyCookie() {
+            var key = findCookie(COOKIE);
+            while (key.length !== 32) {
+                key = prompt("Enter Bing Autoseggest API subscription key:", "").trim();
+                var expiry = new Date();
+                expiry.setFullYear(expiry.getFullYear() + 2);
+                document.cookie = COOKIE + "=" + key.trim() + "; expires=" + expiry.toUTCString();
+            }
+            return key;
+        }
+
+        function getSubscriptionKeyLocalStorage() {
+            var key = localStorage.getItem(COOKIE) || "";
+            while (key.length !== 32)
+                key = prompt("Enter Bing Autosuggest API subscription key:", "").trim();
+            localStorage.setItem(COOKIE, key)
+            return key;
+        }
+        function getSubscriptionKey(invalidate) {
+            if (invalidate) {
+                try {
+                    localStorage.removeItem(COOKIE);
+                }
+                catch (e) {
+                    document.cookie = COOKIE + "=";
+                }
+            }
+            else {
+                try {
+                    return getSubscriptionKeyLocalStorage();
+                }
+                catch (e) {
+                    return getSubscriptionKeyCookie();
+                }
+            }
+        }
+        return getSubscriptionKey;
+    }();
+</script>
+
+
+
+
+<!--<input type="text" id="ajax" list="json-datalist" placeholder="e.g. datalist">
+<datalist id="json-datalist"></datalist>-->
+
+

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+
+
+
+    <script src="Scripts/jquery-3.4.1.js"></script>
+    <script src="Scripts/umd/popper.js"></script>
+    <script src="Scripts/bootstrap.js"></script>
+    <link href="Content/bootstrap.css" rel="stylesheet" />
+    <script src="Scripts/jquery.dataTables.min.js"></script>
+    <script src="Scripts/dataTables.bootstrap4.min.js"></script>
+    <link href="Content/dataTables.bootstrap4.min.css" rel="stylesheet" />
+
+
+</head>
+<body>
+    <div class="container py-4">
+        <h5 class="text-center"></h5>
+        <div class="card">
+            <div class="card-header bg-primary text-uppercase text-white">
+                <h5 class="card-title">Supplier List</h5>
+            </div>
+            <div class="card-body">
+                <button id="btnGetdata" type="button" class="btn btn-outline-primary rounded-0">Load list</button>
+            </div>
+            <div id="updatepanel" style="padding:20px;">
+
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+       
+        $("#btnGetdata").click(
+            function () {
+                //var supplier = new Object();
+                //supplier.SupplierID = $("#SupplierID").val();
+                $.ajax({
+                    url: 'api/suppliers',
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function (data) {
+                        console.log(data);
+                        var $table = $('<table />').addClass('dataTable table table-bordered table-striped');
+                        $table.attr('id', 'table1');
+                        var $header = $('<thead />').html('<tr><th>SupplierName</th><th>SupplierMobile</th><th>Email</th><th>CreationDateTime Date</th><th>LastModifiedDateTime</th></tr>');
+                        $table.append($header);
+                        $.each(data, function (i, val) {
+                            var $row = $('<tr />');
+                            // $row.append($('<td />').html(val.RawMaterialID));
+                            $row.append($('<td />').html(val.SupplierName));
+                            $row.append($('<td />').html(val.SupplierMobile));
+                            $row.append($('<td />').html(val.Email));
+                            $row.append($('<td />').html(val.CreationDateTime));
+                            $row.append($('<td />').html(val.LastModifiedDateTime));
+                            $table.append($row);
+                        });
+                        $('#updatepanel').html($table);
+                        $('#table1').DataTable();
+
+                    },
+                    error: function () {
+                        alert('Error!');
+                    }
+                });
+            });
+    });
+
+</script>

@@ -1,0 +1,39 @@
+insert into Team_D.Product(ProductID,ProductName,ProductCode,ProductUnitPrice,ProductType,CreationDateTime,LastUpdateDateTime)
+values (NEWID(),'Mango Juice','MJ',25,'Juice',SYSDATETIME(),SYSDATETIME())
+insert into Team_D.Product values (NEWID(),'Apple Juice','AJ',45,'Juice',SYSDATETIME(),SYSDATETIME())
+insert into Team_D.Product values (NEWID(),'Guava Juice','GJ',35,'Juice',SYSDATETIME(),SYSDATETIME())
+insert into Team_D.Product values (NEWID(),'Kiwi Shake','KJ',55,'Mocktail',SYSDATETIME(),SYSDATETIME())
+insert into Team_D.Product values (NEWID(),'Mojito','MO',105,'Tonic Water',SYSDATETIME(),SYSDATETIME())
+
+
+
+
+insert into Team_D.ProductOrders values ('F4D07B63-C53D-41DD-B7A2-0EA4126A65CC',SYSDATETIME(),SYSDATETIME(),'EE573AEE-D70C-46D6-9B4E-2A6D891F750D',30,0,1,'93A5E92B-2AB5-4CD8-8E1E-6D751876DE59')
+insert into Team_D.ProductOrders values ('1B7C84C1-8D13-47B6-9BD3-9422B97FDDB7',SYSDATETIME(),SYSDATETIME(),'EE573AEE-D70C-46D6-9B4E-2A6D891F750D',210,0,5,'93A5E92B-2AB5-4CD8-8E1E-6D751876DE59')
+insert into Team_D.ProductOrders values ('F9D07B63-C55D-41DD-B0A2-0EA4126A65CC',SYSDATETIME(),SYSDATETIME(),'EE573AEE-D70C-46D6-9B4E-2A6D891F750D',585,0,15,'93A5E92B-2AB5-4CD8-8E1E-6D751876DE59')
+insert into Team_D.ProductOrders values ('F2D07B63-C56D-41DD-B9A2-0EA4126A65CC',SYSDATETIME(),SYSDATETIME(),'EE573AEE-D70C-46D6-9B4E-2A6D891F750D',90,0,3,'93A5E92B-2AB5-4CD8-8E1E-6D751876DE59')
+insert into Team_D.ProductOrders values ('F1D07B63-C57D-41DD-B8A2-0EA4126A65CC',SYSDATETIME(),SYSDATETIME(),'EE573AEE-D70C-46D6-9B4E-2A6D891F750D',90,0,2,'93A5E92B-2AB5-4CD8-8E1E-6D751876DE59')
+
+insert into Team_D.ProductOrderDetails values ('68409D5F-FB6A-4DDC-AC61-C9549B020703','F1D07B63-C57D-41DD-B8A2-0EA4126A65CC','9F08BAB7-2C76-447C-AB35-391B23C01968',180,4,45)
+insert into Team_D.ProductOrderDetails values ('6980D008-C993-4F0E-99FF-8C720EB09CC3','FBD75A78-5E04-4F75-A7B4-9A1D7C49C086','6980D008-C993-4F0E-99FF-8C720EB09CC3',180,6,30)
+insert into Team_D.ProductOrderDetails values ('6000D008-C993-4F0E-99FF-8C720EB09CC3','7D63B9B7-9B43-4B6F-BEA9-D21C5C35D3F9','EDFE1786-3D33-463E-B02D-737B2F52AF2B',105,3,35)
+insert into Team_D.ProductOrderDetails values ('8000D008-C993-4F0E-99FF-8C720EB09CC3','FBD75A78-5E04-4F75-A7B4-9A1D7C49C086','0D36BD99-872E-4616-A503-8646150264FB',105,3,55)
+
+INSERT INTO Team_D.Supplier VALUES (NEWID(),'pushpraj','8877887711','okaushik123@gmail.com','Ok@u$hik123',SYSDATETIME(),SYSDATETIME())
+INSERT INTO Team_D.Supplier VALUES (NEWID(),'yashraj','8877887722','kokaushik123@gmail.com','Ok@u$hik123',SYSDATETIME(),SYSDATETIME())
+INSERT INTO Team_D.Supplier VALUES (NEWID(),'raj','8877887799','mokaushik3@gmail.com','Ok@u$hik123',SYSDATETIME(),SYSDATETIME())
+INSERT INTO Team_D.Supplier VALUES (NEWID(),'rajkumar','8877007766','okahik123@gmail.com','Ok@u$hik123',SYSDATETIME(),SYSDATETIME())
+INSERT INTO Team_D.Supplier VALUES (NEWID(),'rajendra','8879887766','shik123@gmail.com','Ok@u$hik123',SYSDATETIME(),SYSDATETIME())
+
+
+INSERT INTO Team_D.Distributor VALUES (NEWID(),'sowrasree','9177887766','Hisowrasree@gmail.com','Ok@u$hik123',SYSDATETIME(),SYSDATETIME())
+INSERT INTO Team_D.Distributor VALUES (NEWID(),'bhagyasree','5577887766','bhagyasree@gmail.com','OMk@u$hik123',SYSDATETIME(),SYSDATETIME())
+INSERT INTO Team_D.Distributor VALUES (NEWID(),'shreedevi','7777887766','shreedevi@gmail.com','ON@u$hik123',SYSDATETIME(),SYSDATETIME())
+INSERT INTO Team_D.Distributor VALUES (NEWID(),'sreemala','6677887766','sreemala@gmail.com','OJ@u$hik123',SYSDATETIME(),SYSDATETIME())
+INSERT INTO Team_D.Distributor VALUES (NEWID(),'somesh','9977887766','somesh@gmail.com','OP@u$hik123',SYSDATETIME(),SYSDATETIME())
+
+select * from Team_D.Product
+select * from Team_D.ProductOrders
+select * from Team_D.ProductOrderDetails
+select * from Team_D.Supplier
+select * from Team_D.Distributor

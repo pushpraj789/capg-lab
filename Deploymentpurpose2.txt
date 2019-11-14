@@ -1,0 +1,43 @@
+insert into Team_D.Product(ProductID,ProductName,ProductCode,ProductUnitPrice,ProductType,CreationDateTime,LastUpdateDateTime)
+values (NEWID(),'Mango Juice','MJ',25,'Juice',SYSDATETIME(),SYSDATETIME())
+
+insert into Team_D.Product values (NEWID(),'Apple Juice','AJ',45,'Juice',SYSDATETIME(),SYSDATETIME())
+insert into Team_D.Product values (NEWID(),'Guava Juice','GJ',35,'Juice',SYSDATETIME(),SYSDATETIME())
+insert into Team_D.Product values (NEWID(),'Kiwi Shake','KJ',55,'Mocktail',SYSDATETIME(),SYSDATETIME())
+insert into Team_D.Product values (NEWID(),'Mojito','MO',105,'Tonic Water',SYSDATETIME(),SYSDATETIME())
+
+
+
+
+insert into Team_D.ProductOrders values (NEWID(),SYSDATETIME(),SYSDATETIME(),'44284FCD-4E0D-4A31-BA62-1067C9DDEA87',30,0,1,'2200B509-2259-4B77-B707-4B0C20712A19')
+insert into Team_D.ProductOrders values (NEWID(),SYSDATETIME(),SYSDATETIME(),'44284FCD-4E0D-4A31-BA62-1067C9DDEA87',150,0,5,'2200B509-2259-4B77-B707-4B0C20712A19')
+insert into Team_D.ProductOrders values (NEWID(),SYSDATETIME(),SYSDATETIME(),'44284FCD-4E0D-4A31-BA62-1067C9DDEA87',180,0,6,'2200B509-2259-4B77-B707-4B0C20712A19')
+insert into Team_D.ProductOrders values (NEWID(),SYSDATETIME(),SYSDATETIME(),'44284FCD-4E0D-4A31-BA62-1067C9DDEA87',30,0,1,'2200B509-2259-4B77-B707-4B0C20712A19')
+
+
+insert into Team_D.ProductOrderDetails values (NEWID(),'275FAC74-D47D-4849-B39C-F43D79A7FD0F','9F08BAB7-2C76-447C-AB35-391B23C01968',180,4,45)
+insert into Team_D.ProductOrderDetails values (NEWID(),'7385F648-DFF8-44F6-9934-B4F7E971C747','6980D008-C993-4F0E-99FF-8C720EB09CC3',180,6,30)
+insert into Team_D.ProductOrderDetails values (NEWID(),'88252DCE-4997-4130-82A3-9353E02997B6','EDFE1786-3D33-463E-B02D-737B2F52AF2B',105,3,35)//
+
+
+INSERT INTO Team_D.Supplier VALUES (NEWID(),'pushpraj','8877887711','okaushik123@gmail.com','Ok@u$hik123',SYSDATETIME(),SYSDATETIME())
+INSERT INTO Team_D.Supplier VALUES (NEWID(),'yashraj','8877887722','kokaushik123@gmail.com','Ok@u$hik123',SYSDATETIME(),SYSDATETIME())
+INSERT INTO Team_D.Supplier VALUES (NEWID(),'raj','8877887799','mokaushik3@gmail.com','Ok@u$hik123',SYSDATETIME(),SYSDATETIME())
+INSERT INTO Team_D.Supplier VALUES (NEWID(),'rajkumar','8877007766','okahik123@gmail.com','Ok@u$hik123',SYSDATETIME(),SYSDATETIME())
+INSERT INTO Team_D.Supplier VALUES (NEWID(),'rajendra','8879887766','shik123@gmail.com','Ok@u$hik123',SYSDATETIME(),SYSDATETIME())
+
+
+INSERT INTO Team_D.Distributor VALUES (NEWID(),'sowrasree','9177887766','Hisowrasree@gmail.com','Ok@u$hik123',SYSDATETIME(),SYSDATETIME())
+INSERT INTO Team_D.Distributor VALUES (NEWID(),'bhagyasree','5577887766','bhagyasree@gmail.com','OMk@u$hik123',SYSDATETIME(),SYSDATETIME())
+INSERT INTO Team_D.Distributor VALUES (NEWID(),'shreedevi','7777887766','shreedevi@gmail.com','ON@u$hik123',SYSDATETIME(),SYSDATETIME())
+INSERT INTO Team_D.Distributor VALUES (NEWID(),'sreemala','6677887766','sreemala@gmail.com','OJ@u$hik123',SYSDATETIME(),SYSDATETIME())
+INSERT INTO Team_D.Distributor VALUES (NEWID(),'somesh','9977887766','somesh@gmail.com','OP@u$hik123',SYSDATETIME(),SYSDATETIME())
+
+insert into Team_D.DistributorAddress values (NEWID(),'44284FCD-4E0D-4A31-BA62-1067C9DDEA87','Patni ground','CKP airoli','495001','Ajmer','Assam',SYSDATETIME(),SYSDATETIME())
+
+select * from Team_D.Product
+select * from Team_D.ProductOrders
+select * from Team_D.ProductOrderDetails
+select * from Team_D.Supplier
+select * from Team_D.Distributor
+select * from Team_D.DistributorAddress

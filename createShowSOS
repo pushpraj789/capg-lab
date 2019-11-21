@@ -1,0 +1,215 @@
+@model Inventory.Mvc.Models.DistributorViewModel
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Create Distributor</title>
+    <script src="~/Scripts/jquery-3.4.1.js"></script>
+    <script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/Scripts/popper.js"></script>
+    <script src="~/Scripts/bootstrap.js"></script>
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+
+</head>
+<body>
+    <div class="container-fluid">
+        <nav class="navbar navbar-light bg-light">
+            <span class="navbar-brand mb-0 h1">Distributor Home</span>
+        </nav>
+        @using (Html.BeginForm(""))
+        {
+            <div class="row">
+
+                <div class="col-md-6 mx-auto border-secondary">
+
+                    <div class="form-group form-row">
+                        @Html.LabelFor(temp => temp.DistributorName, new
+                   { @class="col-form-label col-lg-3"})
+                        <div class="col-lg-9">
+
+                            @Html.TextBoxFor(temp => temp.DistributorName, new
+                       { @class= "form-control col-lg-9 distributorname", placeholder="Distributorname"})
+                            @Html.ValidationMessageFor(temp => temp.DistributorName)
+                        </div>
+
+                    </div>
+
+                    <div class="form-group form-row">
+                        @Html.LabelFor(temp => temp.DistributorMobile, new
+                   { @class="col-form-label col-lg-3"})
+
+                        <div class="col-lg-9">
+                            @Html.TextBoxFor(temp => temp.DistributorMobile, new
+                       { @class= "form-control col-lg-9 distributorMobile", placeholder = "DistributorMobile" })
+                            @Html.ValidationMessageFor(temp => temp.DistributorMobile)
+                        </div>
+
+                    </div>
+
+                    <div class="form-group form-row">
+                        @Html.LabelFor(temp => temp.Email, new
+                    { @class="col-form-label col-lg-3"})
+
+                        <div class="col-lg-9">
+                            @Html.TextBoxFor(temp => temp.Email, new
+                       { @class= "form-control col-lg-9 distributorEmail", placeholder = "DistributorEmail" })
+                            @Html.ValidationMessageFor(temp => temp.Email)
+                        </div>
+
+                    </div>
+
+                    <div class="form-group form-row">
+                        @Html.LabelFor(temp => temp.Password, new
+                    { @class="col-form-label col-lg-3"})
+
+                        <div class="col-lg-9">
+                            @Html.TextBoxFor(temp => temp.Password, new
+                       { @class= "form-control col-lg-9 distributorPassword", placeholder = "DistributorPassword" })
+                            @Html.ValidationMessageFor(temp => temp.Password)
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="border-top text-right pt-2">
+                <a class="btn btn-primary" href="@Url.Action("Show","Distributors")">Back</a>
+                <button type="button" id="createButton" class="btn btn-warning">Add Distributor</button>
+            </div>
+
+
+        }
+
+
+    </div>
+    <script>
+        $(document).ready(function () {
+            $(function () {
+                $('#createButton').attr('disabled', 'disabled');
+            });
+            $('input[type=text],input[type=text],input[type=text],input[type=text]').keyup(function () {
+                if ($('form').valid()) {
+                    $('#createButton').removeAttr('disabled');
+                }
+                else {
+                    $('#createButton').attr('disabled', 'disabled');
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>
+
+-----------------------------------------------------------------------------
+@using Inventory.Mvc.Models
+@model DistributorViewModel
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Create Distributor</title>
+    <script src="~/Scripts/jquery-3.4.1.js"></script>
+    <script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+    <script src="~/Scripts/umd/popper.js"></script>
+    <script src="~/Scripts/bootstrap.js"></script>
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <style>
+        .field-validation-error {
+            color: red;
+        }
+
+        .my-color {
+            color: blue;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <h2>Edit Distributor</h2>
+
+        @using (Html.BeginForm("Update", "Distributors", FormMethod.Post))
+        {
+            @Html.HiddenFor(temp => temp.DistributorID)
+            <div class="row">
+
+                <div class="col-md-6 mx-auto">
+
+                    <div class="form-group form-row">
+                        @Html.LabelFor(temp => temp.DistributorName,
+                            new { @class="col-form-label col-lg-3 my-color" })
+                        <div class="col-lg-9">
+                            @Html.TextBoxFor(temp => temp.DistributorName,
+                            new { @class = "form-control distributorName", placeholder = "Distributor Name" })
+                            @Html.ValidationMessageFor(temp => temp.DistributorName)
+                        </div>
+                    </div>
+
+                    <div class="form-group form-row">
+                        @Html.LabelFor(temp => temp.DistributorMobile,
+                            new { @class="col-form-label col-lg-3" })
+                        @Html.TextBoxFor(temp => temp.DistributorMobile,
+                            new { @class = "form-control col-lg-9 distributorMobile", placeholder = "DistributorMobile" })
+                    </div>
+
+                    <div class="form-group form-row">
+                        @Html.LabelFor(temp => temp.Email,
+                            new { @class="col-form-label col-lg-3" })
+                        @Html.TextBoxFor(temp => temp.Email,
+                            new { @class = "form-control col-lg-9 email", placeholder = "Email" })
+                    </div>
+
+
+
+
+
+                    <div class="border-top text-right pt-2">
+                        <a href="@Url.Action("Show", "Distributors")" class="btn btn-secondary">Cancel</a>
+                        <button id="updatebutton" class="btn btn-success">Update</button>
+
+                    </div>
+                </div>
+            </div>
+
+
+        }
+    </div>
+
+    <script>
+        $(document).ready(function () {
+            $(function () {
+                $('#updatebutton').attr('disabled', 'disabled');
+            });
+            $('input[type=text],input[type=text],input[type=text]').keyup(function () {
+                if ($('form').valid()) {
+                    $('#updatebutton').removeAttr('disabled');
+                }
+                else {
+                    $('#updatebutton').attr('disabled', 'disabled');
+                }
+            });
+        });
+    </script>
+
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+

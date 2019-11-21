@@ -1,0 +1,216 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net.Http;
+using System.Threading.Tasks;
+using System.Web;
+using System.Web.Mvc;
+using Capgemini.Inventory.BusinessLayer;
+using Inventory.Entities;
+using Inventory.MVC.Models;
+
+namespace Inventory.MVC.Controllers
+{
+
+    //Developed by Pushpraj Kaushik(Group 4)
+    //creation date : 24/10/19
+
+     //controller class 
+    public class SuppliersController : Controller
+    {
+        // URL: Suppliers/Create
+        public ActionResult Create()
+        {
+            //creating viewmodel object
+
+            SupplierViewModel supplierViewModel = new SupplierViewModel();
+            
+            //calling view and passing viewmodelobject to view
+            return View(supplierViewModel);
+        }
+
+       
+        // URL: Suppliers/Create
+        [HttpPost]
+        public ActionResult Create(SupplierViewModel supplierVM)
+        {
+            try
+            {
+                //creating object of SupplierBL
+                SupplierBL supplierBL = new SupplierBL();
+
+                //creating object of RawMaterial and storing values of viewmodel
+                Supplier supplier = new Supplier();
+                supplier.SupplierID = supplierVM.SupplierID;
+                supplier.SupplierName = supplierVM.SupplierName;
+                supplier.SupplierMobile = supplierVM.SupplierMobile;
+                supplier.Email = supplierVM.Email;
+                supplier.Password = supplierVM.Password;
+
+                using (var client = new HttpClient())
+                {
+                    client.BaseAddress = new Uri("http://localhost:52606/api/");
+
+                    //HTTP POST
+                    var postTask = client.PostAsJsonAsync<Supplier>("Suppliers", supplier);
+                    postTask.Wait();
+
+                    var result = postTask.Result;
+                    if (result.IsSuccessStatusCode)
+                    {
+                        return RedirectToAction("Index");
+                    }
+                    else
+                    {
+                        return Content("Supplier Not Added");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+     //URL: Suppliers/Index
+        public ActionResult Index()
+        {
+            try
+            {
+                List<SupplierViewModel> suppliersListVM = new List<SupplierViewModel>();
+                using (var client = new HttpClient())
+                {
+                    client.BaseAddress = new Uri("http://localhost:52606/api/");
+
+                    //Called Member default GET All records  
+                    //GetAsync to send a GET request
+                    var responseTask = client.GetAsync("Suppliers");
+                    responseTask.Wait();
+
+                    //To store result of web api response.   
+                    var result = responseTask.Result;
+
+                    //If success received   
+                    if (result.IsSuccessStatusCode)
+                    {
+                        var readTask = result.Content.ReadAsAsync<List<SupplierViewModel>>();
+                        readTask.Wait();
+
+                        suppliersListVM = readTask.Result;
+                    }
+                }
+
+                //Calling view & passing viewmodel object to view
+                return View(suppliersListVM);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+
+
+
+
+
+        // URL: Suppliers/Edit
+        public async Task<ActionResult> Edit(Guid id)
+        {
+            //converting supplier object to view model object
+            SupplierBL supplierBL = new SupplierBL();
+            Supplier supplier = await supplierBL.GetSupplierBySupplierIDBL(id);
+            SupplierViewModel supplierVM = new SupplierViewModel();
+            supplierVM.SupplierID = supplier.SupplierID;
+            supplierVM.SupplierName = supplier.SupplierName;
+            supplierVM.SupplierMobile = supplier.SupplierMobile;
+            supplierVM.Email = supplier.Email;
+
+            //getting list of SupplierVm to supplier
+            List<Supplier> suppliers = await supplierBL.GetAllSuppliersBL();
+
+            return View(supplierVM);
+        }
+
+        //URL: Suppliers/Update
+        [HttpPost]
+        public async Task<ActionResult> Edit(SupplierViewModel supplierVM)
+        {
+            //changing view model to entity 
+            SupplierBL supplierBL = new SupplierBL();
+            Supplier supplier = new Supplier();
+            supplier.SupplierName = supplierVM.SupplierName;
+            supplier.SupplierMobile = supplierVM.SupplierMobile;
+            supplier.Email = supplierVM.Email;
+            supplier.SupplierID = supplierVM.SupplierID;
+            bool supplierUpdated = await supplierBL.UpdateSupplierBL(supplier);
+            return RedirectToAction("Index");
+        }
+
+        //URL:Suppliers/Delete
+        public async Task<ActionResult> Delete(Guid id)
+        {
+            SupplierBL supplierBL = new SupplierBL();
+            Supplier supplier = await supplierBL.GetSupplierBySupplierIDBL(id);
+            SupplierViewModel supplierVM = new SupplierViewModel();
+            supplierVM.SupplierID = supplier.SupplierID;
+            supplierVM.SupplierName = supplier.SupplierName;
+            supplierVM.SupplierMobile = supplier.SupplierMobile;
+            supplierVM.Email = supplier.Email;
+
+            //getting list of SupplierVm to supplier
+            List<Supplier> suppliers = await supplierBL.GetAllSuppliersBL();
+
+            return View(supplierVM);
+        }
+
+       
+        //URL: Suppliers/Delete
+        [HttpPost]
+
+        public  ActionResult Delete(SupplierViewModel supplierVM)
+        {
+            try
+            {
+                SupplierBL supplierBL = new SupplierBL();
+                Supplier supplier = new Supplier();
+                supplier.SupplierName = supplierVM.SupplierName;
+                supplier.SupplierMobile = supplierVM.SupplierMobile;
+                supplier.Email = supplierVM.Email;
+                supplier.SupplierID = supplierVM.SupplierID;
+                //bool supplierUpdated = await supplierBL.DeleteSupplierBL(supplier.SupplierID);
+                using (var client = new HttpClient())
+                {
+                    client.BaseAddress = new Uri("http://localhost:52606/api/");
+
+                    //HTTP DELETE
+                    var deleteTask = client.DeleteAsync("Suppliers/?id=" + Convert.ToString(supplier.SupplierID));
+                    deleteTask.Wait();
+
+                    var result = deleteTask.Result;
+                    if (result.IsSuccessStatusCode)
+                    {
+                        return RedirectToAction("Index");
+
+                    }
+                    else
+                    {
+                        return Content("Supplier cannot be deleted");
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+
+                return Content(e.Message);
+            }
+           
+
+           
+        }
+
+
+
+    }
+    
+}

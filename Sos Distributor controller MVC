@@ -1,0 +1,44 @@
+//URL Distributors/create
+        [HttpPost]
+        public  ActionResult Create(DistributorViewModel distributorVM)
+        {
+            DistributorBL distributorBL = new DistributorBL();
+            Distributor distributor = new Distributor();
+            distributor.DistributorID = distributorVM.DistributorID;
+            distributor.DistributorName = distributorVM.DistributorName;
+            distributor.DistributorMobile = distributorVM.DistributorMobile;
+            distributor.DistributorEmail = distributorVM.Email;
+            distributor.DistributorPassword = distributorVM.Password;
+
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri("http://localhost:52606/api/");
+
+                //HTTP POST
+                var postTask = client.PostAsJsonAsync<Distributor>("Distributors", distributor);
+                postTask.Wait();
+
+                var result = postTask.Result;
+                if (result.IsSuccessStatusCode)
+                {
+                    return RedirectToAction("Show");
+                }
+                else
+                {
+                    return Content("Distributor Not Added");
+                }
+            }
+
+
+            ////invoke the AddDistributor method BL
+            //(bool isAdded, Guid newGuid) =await distributorBL.AddDistributorBL(distributor);
+            //if (isAdded)
+            //{
+            //    return RedirectToAction("Show");
+            //}
+            //else
+            //{
+            //    //    Return plain html / plain string
+            //    return Content("Distributor not added");
+            //}
+        }

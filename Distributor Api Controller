@@ -1,0 +1,23 @@
+using System.Web.Http;
+using System.Threading.Tasks;
+using Inventory.MVC.Models;
+using System.Web.Http.Description;
+using Capgemini.Inventory.DataAccessLayer;
+
+namespace Inventory.MVC.ApiControllers
+{
+    public class DistributorsController:ApiController
+    {
+        private Distributor distributor= new Distributor();
+        private DistributorBL distributorBL= new DistributorBL();
+
+        [HttpPost]
+        public async Task<IHttpActionResult> PostDistributors(Distributor distributor)
+        {
+            bool isAdded = false;
+            Guid  id = default(Guid);
+            (isAdded,id) = await distributorBL.AddDistributorBL(distributor);
+            return Ok();
+        }
+    }
+}

@@ -1,0 +1,181 @@
+@model Inventory.MVC.Models.SupplierViewModel
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Create Supplier</title>
+    <script src="~/Scripts/jquery-3.4.1.js"></script>
+    <script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+    <script src="~/Scripts/umd/popper.js"></script>
+    <script src="~/Scripts/bootstrap.js"></script>
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+</head>
+<body>
+    <nav class="navbar navbar-light" style="background-color: #e3f2fd;">
+        <span class="navbar-brand mb-0 h2">SUPPLIERS</span>
+    </nav>
+    <div class="container-fluid">
+        <h2>Create Supplier</h2>
+        @using (Html.BeginForm())
+        {
+            <div class="row">
+
+                <div class="col-md-6 mx-auto border-secondary">
+                    @*Data binding with the help of html helpers*@
+                    <div class="form-group form-row">
+                        @Html.LabelFor(temp => temp.SupplierName, new { @class = "col-form-label col-lg-3" })
+                        <div class="col-lg-9">
+                            @Html.TextBoxFor(temp => temp.SupplierName, new { @class = "form-control col-lg-9 supplierName",
+                            placeholder ="Enter your name here" })
+                            @Html.ValidationMessageFor(temp => temp.SupplierName)
+                        </div>
+                    </div>
+
+                    <div class="form-group form-row">
+                        @Html.LabelFor(temp => temp.SupplierMobile, new { @class = "col-form-label col-lg-3" })
+                        <div class="col-lg-9">
+                            @Html.TextBoxFor(temp => temp.SupplierMobile, new { @class = "form-control col-lg-9 supplierMobile",
+                            placeholder = "Enter your Mobile Number here" })
+                            @Html.ValidationMessageFor(temp => temp.SupplierMobile)
+                        </div>
+                    </div>
+                    <div class="form-group form-row">
+                        @Html.LabelFor(temp => temp.Email, new { @class = "col-form-label col-lg-3" })
+                        <div class="col-lg-9">
+                            @Html.TextBoxFor(temp => temp.Email, new { @class = "form-control col-lg-9 email",
+                       placeholder = "Enter your Email here" })
+                            @Html.ValidationMessageFor(temp => temp.Email)
+                        </div>
+                    </div>
+                    <div class="form-group form-row">
+                        @Html.LabelFor(temp => temp.Password, new { @class = "col-form-label col-lg-3" })
+                        <div class="col-lg-9">
+                            @Html.TextBoxFor(temp => temp.Password, new { @class = "form-control col-lg-9 password",
+                        placeholder = "Enter your Password here"})
+                            @Html.ValidationMessageFor(temp => temp.Password)
+                        </div>
+                    </div>
+
+
+                    <div class="border-top float-right pt-2">
+                        
+                        <button id="createButton" class="btn btn-success">Submit</button>
+                    </div>
+                    <div class="float-left pt-2">
+                        <a href="@Url.Action("Create", "Suppliers")" button class="btn btn-danger">Reset</a>
+                    </div>
+                </div>
+
+
+            </div>
+        }
+    </div>
+
+
+    <script>
+        $(document).ready(function () {
+            $(function () {
+                $('#createButton').attr('disabled', 'disabled');
+            });
+            $('input[type=text],input[type=text],input[type=text],input[type=text]').keyup(function () {
+                if ($('form').valid()) {
+                    $('#createButton').removeAttr('disabled');
+                }
+                else {
+                    $('#createButton').attr('disabled', 'disabled');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
+----------------------------------------------------------------------
+
+@model Inventory.MVC.Models.SupplierViewModel
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Edit</title>
+    <script src="~/Scripts/jquery-3.4.1.js"></script>
+    <script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+    <script src="~/Scripts/umd/popper.js"></script>
+    <script src="~/Scripts/bootstrap.js"></script>
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+</head>
+<body>
+    <nav class="navbar navbar-light" style="background-color: #e3f2fd;">
+        <span class="navbar-brand mb-0 h2">SUPPLIERS</span>
+    </nav>
+    <div class="container-fluid">
+        <h2>EDIT SUPPLIER DETAIL</h2>
+        @*Data binding with the help of html helpers*@
+        @using (Html.BeginForm("Edit", "Suppliers", FormMethod.Post))
+        {
+            @Html.HiddenFor(temp => temp.SupplierID)
+            <div class="row">
+
+                <div class="col-md-6 mx-auto border-secondary">
+
+                    <div class="form-group form-row">
+                        @Html.LabelFor(temp => temp.SupplierName, new { @class = "col-form-label col-lg-3" })
+                        <div class="col-lg-9">
+                            @Html.TextBoxFor(temp => temp.SupplierName, new { @class = "form-control col-lg-9 supplierName",
+                            placeholder ="Enter your name here" })
+                            @Html.ValidationMessageFor(temp => temp.SupplierName)
+                        </div>
+                    </div>
+
+                    <div class="form-group form-row">
+                        @Html.LabelFor(temp => temp.SupplierMobile, new { @class = "col-form-label col-lg-3" })
+                        <div class="col-lg-9">
+                            @Html.TextBoxFor(temp => temp.SupplierMobile, new { @class = "form-control col-lg-9 supplierMobile",
+                            placeholder = "Enter your Mobile Number here"})
+                            @Html.ValidationMessageFor(temp => temp.SupplierMobile)
+                        </div>
+                    </div>
+                    <div class="form-group form-row">
+                        @Html.LabelFor(temp => temp.Email, new { @class = "col-form-label col-lg-3" })
+                        <div class="col-lg-9">
+                            @Html.TextBoxFor(temp => temp.Email, new { @class = "form-control col-lg-9 email",
+                       placeholder = "Enter your Email here" })
+                            @Html.ValidationMessageFor(temp => temp.Email)
+                        </div>
+                    </div>
+
+                    <div class="border-top text-right pt-2">
+                        <a href="@Url.Action("Index", "Suppliers")" class="btn btn-secondary">Cancel</a>
+                        <a href="@Url.Action("Edit","Suppliers")" class="btn btn-secondary">Reset</a>
+                        <button id="updatebutton"class="btn btn-success">Update</button>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+        }
+    </div>
+
+    <script>
+        $(document).ready(function () {
+            $(function () {
+                $('#updatebutton').attr('disabled', 'disabled');
+            });
+            $('input[type=text],input[type=text],input[type=text]').keyup(function () {
+                if ($('form').valid()) {
+                    $('#updatebutton').removeAttr('disabled');
+                }
+                else {
+                    $('#updatebutton').attr('disabled', 'disabled');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
